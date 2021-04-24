@@ -50,7 +50,7 @@ const EditVatPercentageModal: React.FC<Props> = ({
   }, [trueVat, modalProps.isOpen])
 
   const _onRequestCloseInterceptor = useCallback(() => {
-    if (isEditLoading) {
+    if (!isEditLoading) {
       modalProps.onCloseRequest()
     }
   }, [isEditLoading])
