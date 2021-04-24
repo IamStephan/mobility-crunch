@@ -18,22 +18,22 @@ import Animated, {
 
 import { PortalHosts } from "../../constants/portal_hosts"
 
-interface Props {
-  isOpen?: boolean
+export interface Props {
+  isOpen: boolean
   layer?: number
-  onCloseRequest?: () => void
+  onCloseRequest: () => void
   onModalClosed?: () => void
 }
 
 const AnimationConfig = {
-  duration: 250,
+  duration: 200,
   easing: Easing.inOut(Easing.quad),
 }
 
 const Modal: React.FC<Props> = ({
   isOpen,
   layer = 1,
-  onCloseRequest = () => {},
+  onCloseRequest,
   onModalClosed = () => {},
   children,
 }) => {
@@ -172,7 +172,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    paddingTop: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     left: 0,
     overflow: "hidden",
     position: "absolute",
