@@ -2,7 +2,6 @@ import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
 //@ts-ignore
-// import Icon from "@expo/vector-icons/MaterialCommunityIcons"
 import Icon from "@expo/vector-icons/MaterialIcons"
 
 // Constants
@@ -19,6 +18,11 @@ const RootNavigator = () => {
   return (
     <RootTabNavigator.Navigator
       initialRouteName={NavContainers.orderItemContainer}
+      tabBarOptions={{
+        style: {
+          elevation: 0,
+        },
+      }}
     >
       <RootTabNavigator.Screen
         name={NavContainers.inventoryItemContainer}
@@ -35,7 +39,7 @@ const RootNavigator = () => {
         options={{
           tabBarLabel: "Orders",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="local-shipping" color={color} size={size} />
+            <Icon name="assignment" color={color} size={size} />
           ),
         }}
         component={OrdersNavigator}

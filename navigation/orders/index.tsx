@@ -1,10 +1,8 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
+import { Appbar } from "react-native-paper"
 
-// Constants
 import { NavContainers, NavScreens } from "../../constants/screens"
-
-// Containers
 import OrderItemNavigator from "../order_item"
 
 // Dummy
@@ -14,8 +12,19 @@ const StackNav = createStackNavigator()
 
 const OrdersNavigator = () => {
   return (
-    <StackNav.Navigator initialRouteName={NavScreens.orderItemList}>
-      <StackNav.Screen name={NavScreens.orderItemList} component={Dummy} />
+    <StackNav.Navigator
+      initialRouteName={NavScreens.orderItemList}
+      screenOptions={{
+        headerStyle: {
+          elevation: 0,
+        },
+      }}
+    >
+      <StackNav.Screen
+        name={NavScreens.orderItemList}
+        options={{ headerTitle: "Orders" }}
+        component={Dummy}
+      />
       <StackNav.Screen
         name={NavContainers.orderItemViewContainer}
         component={OrderItemNavigator}

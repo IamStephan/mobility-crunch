@@ -4,8 +4,20 @@ import {
   DefaultTheme,
   DarkTheme,
 } from "@react-navigation/native"
-import { ColorSchemeName } from "react-native"
+import { ColorSchemeName, StatusBar, View } from "react-native"
 import RootNavigator from "./root"
+
+const MyTheme = {
+  dark: false,
+  colors: {
+    primary: "rgb(255, 45, 85)",
+    background: "#ffffff",
+    card: "rgb(255, 255, 255)",
+    text: "rgb(28, 28, 30)",
+    border: "rgb(199, 199, 204)",
+    notification: "rgb(255, 69, 58)",
+  },
+}
 
 export default function Navigation({
   colorScheme,
@@ -13,9 +25,7 @@ export default function Navigation({
   colorScheme: ColorSchemeName
 }) {
   return (
-    <NavigationContainer
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-    >
+    <NavigationContainer theme={MyTheme}>
       <RootNavigator />
     </NavigationContainer>
   )
