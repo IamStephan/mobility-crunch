@@ -5,6 +5,7 @@ import { Caption } from "react-native-paper"
 import Icon from "@expo/vector-icons/MaterialCommunityIcons"
 
 import TextLoadable from "../text_loadable"
+import Layout from "../../constants/layout"
 
 interface Props {
   label: string
@@ -15,7 +16,7 @@ interface Props {
   action?: () => void
 }
 
-const ListItem: React.FC<Props> = ({
+const ListField: React.FC<Props> = ({
   label,
   value,
   placeholderValue,
@@ -53,14 +54,14 @@ const ListItem: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    paddingBottom: 10,
+    paddingBottom: Layout.spacing,
   },
   textContainer: {
     flex: 1,
   },
   textValue: { fontSize: 18 },
   iconContainer: {
-    padding: 15,
+    padding: Layout.spacing * 2,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -69,4 +70,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ListItem
+export default ListField
