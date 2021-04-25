@@ -41,6 +41,7 @@ const RootNavigator = () => {
       initialRouteName={NavContainers.orderItemContainer}
       tabBarOptions={{
         style: styles.header,
+        keyboardHidesTabBar: true,
       }}
     >
       <RootTabNavigator.Screen
