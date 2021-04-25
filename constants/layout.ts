@@ -8,5 +8,13 @@ export default {
     width,
     height,
   },
+  /**
+   * NOTE:
+   *
+   * Direct children within sections should use
+   * this to add spacing between the screen and
+   * component
+   */
+  spacing: 8,
   isSmallDevice: width < 375,
 }
