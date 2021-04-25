@@ -54,14 +54,14 @@ const ListField: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    paddingBottom: Layout.spacing,
+    marginBottom: Layout.spacing * 2,
   },
   textContainer: {
     flex: 1,
   },
   textValue: { fontSize: 18 },
   iconContainer: {
-    padding: Layout.spacing * 2,
+    paddingHorizontal: Layout.spacing * 2,
     justifyContent: "center",
     alignItems: "center",
   },
