@@ -15,17 +15,18 @@ import Animated, {
   Easing,
 } from "react-native-reanimated"
 
+import Layout from "../../constants/layout"
+
 interface Props {
   loading?: boolean
   alignText: TextStyle["alignSelf"]
   text: string
   placeholderText: string
   Component: typeof TextComponent
-  style: StyleProp<TextStyle>
+  style?: StyleProp<TextStyle>
 }
 
 const LoadingColor = "#efefef"
-const AnimationDuration = 750
 
 const AnimationConfig = {
   duration: 750,
@@ -75,11 +76,11 @@ const TextLoadable: React.FC<Props> = ({
 const styles = StyleSheet.create({
   loader: {
     position: "absolute",
-    top: 4,
+    top: Layout.spacing / 2,
     left: 0,
     right: 0,
     bottom: 0,
-    borderRadius: 5,
+    borderRadius: Layout.spacing / 2,
   },
 })
 

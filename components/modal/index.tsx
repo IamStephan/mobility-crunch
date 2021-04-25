@@ -17,6 +17,7 @@ import Animated, {
 } from "react-native-reanimated"
 
 import { PortalHosts } from "../../constants/portal_hosts"
+import Layout from "../../constants/layout"
 
 export interface Props {
   isOpen: boolean
@@ -170,10 +171,10 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     backgroundColor: "white",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    borderTopLeftRadius: Layout.spacing,
+    borderTopRightRadius: Layout.spacing,
+    paddingVertical: Layout.spacing,
+    paddingHorizontal: Layout.spacing * 2,
     left: 0,
     overflow: "hidden",
     position: "absolute",

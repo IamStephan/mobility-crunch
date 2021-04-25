@@ -2,8 +2,9 @@ import React, { useCallback, useState } from "react"
 import { View, StyleSheet } from "react-native"
 import { Title } from "react-native-paper"
 
-import ListItem from "../../components/list_item"
+import ListField from "../../components/list_field"
 import EditVatPercentageModal from "../../modal_components/edit_vat_percentage"
+import Layout from "../../constants/layout"
 
 interface Props {
   loading?: boolean
@@ -23,7 +24,7 @@ const SettingsList: React.FC<Props> = ({ loading, debugMode, vatValue }) => {
   return (
     <View style={styles.container}>
       <Title style={styles.title}>General Settings</Title>
-      <ListItem
+      <ListField
         label="Vat Percentage"
         value={`${vatValue}%`}
         placeholderValue="15%"
@@ -31,13 +32,13 @@ const SettingsList: React.FC<Props> = ({ loading, debugMode, vatValue }) => {
         loading={loading}
         action={_openEditVatModal}
       />
-      <ListItem
+      <ListField
         label="Debug Mode"
         value={debugMode ? "On" : "Off"}
         placeholderValue="Off"
         loading={loading}
       />
-      <ListItem
+      <ListField
         label="App Version"
         value={"v2.0.0"}
         placeholderValue="v2.0.0"
@@ -55,10 +56,10 @@ const SettingsList: React.FC<Props> = ({ loading, debugMode, vatValue }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: Layout.spacing * 2,
   },
   title: {
-    paddingBottom: 10,
+    paddingBottom: Layout.spacing,
   },
 })
 

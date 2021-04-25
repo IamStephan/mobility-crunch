@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from "react-native"
 import { Title, Caption } from "react-native-paper"
 
 import TextLoadable from "../../components/text_loadable"
+import Layout from "../../constants/layout"
 
 interface Props {
   loading?: boolean
@@ -63,11 +64,11 @@ const SettingsDocumentNumbers: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
-    marginBottom: 40,
+    paddingHorizontal: Layout.spacing * 2,
+    marginBottom: Layout.spacing * 4,
   },
   title: {
-    paddingBottom: 10,
+    paddingBottom: Layout.spacing,
     textAlign: "center",
   },
   itemContainer: {
@@ -78,11 +79,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: "33%",
-    borderRadius: 10,
     alignContent: "center",
   },
   itemSpace: {
-    marginHorizontal: 10,
+    marginHorizontal: Layout.spacing,
   },
   label: {
     textAlign: "center",
