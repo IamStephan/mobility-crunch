@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native"
 import { createStackNavigator } from "@react-navigation/stack"
 
 import { NavScreens } from "../../constants/screens"
+import InventoryItemListScreen from "../../screens/inventory_item_list"
 
 // Dummy
 import Dummy from "../../components/dummy_view"
@@ -24,7 +25,7 @@ const InventoryNavigator = () => {
       <StackNav.Screen
         name={NavScreens.inventoryItemList}
         options={ItemListOptions}
-        component={Dummy}
+        component={InventoryItemListScreen}
       />
       <StackNav.Screen name={NavScreens.inventoryItemView} component={Dummy} />
       <StackNav.Screen
