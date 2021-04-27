@@ -20,6 +20,12 @@ export { useProductsData } from "./products/useProducts"
 export { ProductsData } from "./products/types"
 
 /**
+ * ORDERS
+ */
+export { useOrdersData } from "./orders/useOrders"
+export { OrdersData } from "./orders/types"
+
+/**
  * SETTINGS
  */
 export {
