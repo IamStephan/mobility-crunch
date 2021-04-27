@@ -11,7 +11,11 @@ interface Props {
 const InventoryItemListSearchSection: React.FC<Props> = ({ onSearch }) => {
   return (
     <View style={styles.container}>
-      <Searchbox onSearch={onSearch} iconName="plus-circle-outline" />
+      <Searchbox
+        onSearch={onSearch}
+        iconName="plus-circle-outline"
+        placeholder="Product Name..."
+      />
     </View>
   )
 }
