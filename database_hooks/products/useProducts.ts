@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from "react"
 import { useCollection } from "react-firebase-hooks/firestore"
-import usePagination from "firestore-pagination-hook"
 
-// import { usePaginateQuery as usePagination } from "../../hooks/usePagination"
 import { DatabaseReturnType } from "../types"
 import { ProductsData } from "./types"
 import { useFirebase, State } from "../../stores/useFirebase"
