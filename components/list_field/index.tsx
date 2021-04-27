@@ -4,14 +4,13 @@ import { Caption } from "react-native-paper"
 //@ts-ignore
 import Icon from "@expo/vector-icons/MaterialCommunityIcons"
 
-import TextLoadable from "../text_loadable"
 import Layout from "../../constants/layout"
+import LoadingText from "../loading_text"
+import LoadingIcon from "../loading_icon"
 
 interface Props {
   label: string
   value: string
-  placeholderValue: string
-  loading?: boolean
   iconName?: string
   action?: () => void
 }
@@ -19,33 +18,52 @@ interface Props {
 const ListField: React.FC<Props> = ({
   label,
   value,
-  placeholderValue,
-  loading,
   iconName,
   action = () => {},
 }) => {
-  const IconStyles = {
-    opacity: loading ? 0 : 1,
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Caption>{label}</Caption>
-        <TextLoadable
-          loading={loading}
-          text={`${value}`}
-          placeholderText={placeholderValue}
-          Component={Text}
-          alignText="flex-start"
-          style={styles.textValue}
-        />
+        <Text style={styles.textValue}>{value}</Text>
       </View>
 
       {!!iconName && (
         <TouchableOpacity style={styles.iconContainer} onPress={action}>
-          <Icon style={[styles.icon, IconStyles]} name={iconName} size={20} />
+          <Icon style={styles.icon} name={iconName} size={20} />
         </TouchableOpacity>
+      )}
+    </View>
+  )
+}
+
+interface LoaderProps {
+  label: string
+  placeholderValue: string
+  hasIcon?: boolean
+}
+
+export const ListFieldLoader: React.FC<LoaderProps> = ({
+  label,
+  placeholderValue,
+  hasIcon,
+}) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.textContainer}>
+        <Caption>{label}</Caption>
+        <LoadingText
+          Component={Text}
+          text={placeholderValue}
+          style={styles.textValue}
+          alignText="flex-start"
+        />
+      </View>
+
+      {!!hasIcon && (
+        <View style={styles.iconContainer}>
+          <LoadingIcon size={20} />
+        </View>
       )}
     </View>
   )
