@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react"
 import { View, StyleSheet } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 
-import { useProductsData } from "../../database_hooks/products/useProducts"
+import { useProductsData } from "../../database_hooks"
 import InventoryItemListSearchSection from "../../sections/inventory_item_list_search"
 import InventoryItemListListSection from "../../sections/inventory_item_list_list"
 
