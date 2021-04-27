@@ -1,5 +1,5 @@
 import createStore from "zustand"
-import Firebase from "firebase"
+import Firebase from "firebase/app"
 import "firebase/firestore"
 import "firebase/functions"
 
@@ -16,8 +16,6 @@ const FirebaseConfig = {
 }
 
 const FirebaseInstance = Firebase.initializeApp(FirebaseConfig)
-
-// FirebaseInstance.firestore().enablePersistence()
 
 export type State = {
   firebase: typeof FirebaseInstance
