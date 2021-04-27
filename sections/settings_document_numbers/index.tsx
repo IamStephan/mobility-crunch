@@ -2,7 +2,8 @@ import React from "react"
 import { View, StyleSheet, Text } from "react-native"
 import { Title, Caption } from "react-native-paper"
 
-import TextLoadable from "../../components/text_loadable"
+import LoadingSwitch from "../../components/loading_switch"
+import LoadingText from "../../components/loading_text"
 import Layout from "../../constants/layout"
 
 interface Props {
@@ -10,6 +11,17 @@ interface Props {
   quote?: number
   forma?: number
   invoice?: number
+}
+
+const LoadingStat: React.FC = () => {
+  return (
+    <LoadingText
+      text="20069"
+      Component={Text}
+      style={styles.stat}
+      alignText="center"
+    />
+  )
 }
 
 const SettingsDocumentNumbers: React.FC<Props> = ({
@@ -24,37 +36,28 @@ const SettingsDocumentNumbers: React.FC<Props> = ({
       <View style={styles.itemContainer}>
         <View style={styles.item}>
           <Caption style={styles.label}>Quote</Caption>
-          <TextLoadable
+          <LoadingSwitch
             loading={loading}
-            text={`${quote}`}
-            placeholderText="20069"
-            Component={Text}
-            alignText="center"
-            style={styles.stat}
+            loadingComponent={<LoadingStat />}
+            loadedComponent={<Text style={styles.stat}>{quote}</Text>}
           />
         </View>
 
         <View style={[styles.item, styles.itemSpace]}>
           <Caption style={styles.label}>Pro Forma</Caption>
-          <TextLoadable
+          <LoadingSwitch
             loading={loading}
-            text={`${forma}`}
-            placeholderText="20069"
-            Component={Text}
-            alignText="center"
-            style={styles.stat}
+            loadingComponent={<LoadingStat />}
+            loadedComponent={<Text style={styles.stat}>{forma}</Text>}
           />
         </View>
 
         <View style={styles.item}>
           <Caption style={styles.label}>Invoice</Caption>
-          <TextLoadable
+          <LoadingSwitch
             loading={loading}
-            text={`${invoice}`}
-            placeholderText="20069"
-            Component={Text}
-            alignText="center"
-            style={styles.stat}
+            loadingComponent={<LoadingStat />}
+            loadedComponent={<Text style={styles.stat}>{invoice}</Text>}
           />
         </View>
       </View>
