@@ -1,6 +1,9 @@
 import React from "react"
 import { StyleSheet } from "react-native"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import {
+  BottomTabBarOptions,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs"
 //@ts-ignore
 import Icon from "@expo/vector-icons/MaterialIcons"
 
@@ -39,10 +42,7 @@ const RootNavigator = () => {
   return (
     <RootTabNavigator.Navigator
       initialRouteName={NavContainers.orderItemContainer}
-      tabBarOptions={{
-        style: styles.header,
-        keyboardHidesTabBar: true,
-      }}
+      tabBarOptions={DefaultTabBarOptions}
     >
       <RootTabNavigator.Screen
         name={NavContainers.inventoryItemContainer}
@@ -64,9 +64,22 @@ const RootNavigator = () => {
 }
 
 const styles = StyleSheet.create({
-  header: {
+  tab: {
     elevation: 0,
   },
 })
 
+const DefaultTabBarOptions: BottomTabBarOptions = {
+  style: styles.tab,
+  keyboardHidesTabBar: true,
+  activeTintColor: "green",
+}
+
+/**
+ * NOTE to self:
+ * ==============
+ * do not unmount root routes on change.
+ * Having to load and wait every time a route change
+ * happens can be annoying
+ */
 export default RootNavigator
