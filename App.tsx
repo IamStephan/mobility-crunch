@@ -1,8 +1,8 @@
-import { StatusBar } from "expo-status-bar"
 import React from "react"
+import { LogBox } from "react-native"
+import { StatusBar } from "expo-status-bar"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { PortalProvider, PortalHost } from "@gorhom/portal"
-import { LogBox } from "react-native"
 
 import useCachedResources from "./hooks/useCachedResources"
 import useColorScheme from "./hooks/useColorScheme"
