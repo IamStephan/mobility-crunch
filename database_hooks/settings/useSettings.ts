@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useDocumentData } from "react-firebase-hooks/firestore"
 
 import { DatabaseReturnType } from "../types"
@@ -20,10 +19,8 @@ export interface SettingsData {
 
 export const useSettingsData = (): DatabaseReturnType<SettingsData> => {
   const { firebase } = useFirebase(selector)
-
-  const [data, loading, error] = useDocumentData<SettingsData>(
-    firebase.firestore().collection("settings").doc("v1")
-  )
+  const query = firebase.firestore().collection("settings").doc("v1")
+  const [data, loading, error] = useDocumentData<SettingsData>(query)
 
   return {
     state: {
