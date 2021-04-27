@@ -4,7 +4,8 @@ import {
   DefaultTheme,
   DarkTheme,
 } from "@react-navigation/native"
-import { ColorSchemeName, StatusBar, View } from "react-native"
+import { ColorSchemeName } from "react-native"
+import { Provider } from "react-native-paper"
 import RootNavigator from "./root"
 
 const MyTheme = {
@@ -25,8 +26,10 @@ export default function Navigation({
   colorScheme: ColorSchemeName
 }) {
   return (
-    <NavigationContainer theme={MyTheme}>
-      <RootNavigator />
-    </NavigationContainer>
+    <Provider>
+      <NavigationContainer theme={MyTheme}>
+        <RootNavigator />
+      </NavigationContainer>
+    </Provider>
   )
 }
