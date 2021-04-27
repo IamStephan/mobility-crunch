@@ -1,9 +1,8 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import { Appbar } from "react-native-paper"
 
-import { NavContainers, NavScreens } from "../../constants/screens"
-import OrderItemNavigator from "../order_item"
+import { NavScreens } from "../../constants/screens"
+import OrderItemListScreen from "../../screens/order_item_list"
 
 // Dummy
 import Dummy from "../../components/dummy_view"
@@ -23,13 +22,23 @@ const OrdersNavigator = () => {
       <StackNav.Screen
         name={NavScreens.orderItemList}
         options={{ headerTitle: "Orders" }}
+        component={OrderItemListScreen}
+      />
+
+      {/**
+       * ORDER ITEMS SCREENS
+       */}
+      <StackNav.Screen name={NavScreens.orderItemUpsert} component={Dummy} />
+      <StackNav.Screen name={NavScreens.orderItemView} component={Dummy} />
+      <StackNav.Screen name={NavScreens.orderItemViewAs} component={Dummy} />
+      <StackNav.Screen
+        name={NavScreens.orderItemEditProductList}
         component={Dummy}
       />
       <StackNav.Screen
-        name={NavContainers.orderItemViewContainer}
-        component={OrderItemNavigator}
+        name={NavScreens.orderItemEditProduct}
+        component={Dummy}
       />
-      <StackNav.Screen name={NavScreens.orderItemUpsert} component={Dummy} />
     </StackNav.Navigator>
   )
 }
