@@ -1,10 +1,10 @@
 import React from "react"
-import { View, StyleSheet, Text } from "react-native"
-import { Title, Caption } from "react-native-paper"
+import { StyleSheet } from "react-native"
+import { Div, Text } from "react-native-magnus"
 
 import LoadingSwitch from "../../components/loading_switch"
 import LoadingText from "../../components/loading_text"
-import Layout from "../../constants/layout"
+import { Typography } from "../../constants/typography"
 
 interface Props {
   loading?: boolean
@@ -17,8 +17,10 @@ const LoadingStat: React.FC = () => {
   return (
     <LoadingText
       text="20069"
-      Component={Text}
-      style={styles.stat}
+      Component={Text as any}
+      style={{
+        fontSize: Typography["3xl"],
+      }}
       alignText="center"
     />
   )
@@ -31,65 +33,67 @@ const SettingsDocumentNumbers: React.FC<Props> = ({
   invoice,
 }) => {
   return (
-    <View style={styles.container}>
-      <Title style={styles.title}>Current Numbers</Title>
-      <View style={styles.itemContainer}>
-        <View style={styles.item}>
-          <Caption style={styles.label}>Quote</Caption>
+    <Div p="lg" mb="xl">
+      <Text
+        mb="lg"
+        textAlign="center"
+        fontWeight="700"
+        fontSize="3xl"
+        color="gray900"
+      >
+        Current Numbers
+      </Text>
+      <Div row justifyContent="center">
+        <Div alignItems="center" flex={1}>
+          <Text textAlign="center" color="gray600">
+            Quote
+          </Text>
           <LoadingSwitch
             loading={loading}
             loadingComponent={<LoadingStat />}
-            loadedComponent={<Text style={styles.stat}>{quote}</Text>}
+            loadedComponent={
+              <Text color="green700" fontWeight="bold" fontSize="3xl">
+                {quote}
+              </Text>
+            }
           />
-        </View>
+        </Div>
 
-        <View style={[styles.item, styles.itemSpace]}>
-          <Caption style={styles.label}>Pro Forma</Caption>
+        <Div alignItems="center" flex={1}>
+          <Text textAlign="center" color="gray600">
+            Pro Forma
+          </Text>
           <LoadingSwitch
             loading={loading}
             loadingComponent={<LoadingStat />}
-            loadedComponent={<Text style={styles.stat}>{forma}</Text>}
+            loadedComponent={
+              <Text color="green700" fontWeight="bold" fontSize="3xl">
+                {forma}
+              </Text>
+            }
           />
-        </View>
+        </Div>
 
-        <View style={styles.item}>
-          <Caption style={styles.label}>Invoice</Caption>
+        <Div alignItems="center" flex={1}>
+          <Text textAlign="center" color="gray600">
+            Invoice
+          </Text>
           <LoadingSwitch
             loading={loading}
             loadingComponent={<LoadingStat />}
-            loadedComponent={<Text style={styles.stat}>{invoice}</Text>}
+            loadedComponent={
+              <Text color="green700" fontWeight="bold" fontSize="3xl">
+                {invoice}
+              </Text>
+            }
           />
-        </View>
-      </View>
-    </View>
+        </Div>
+      </Div>
+    </Div>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: Layout.spacing * 2,
-    marginBottom: Layout.spacing * 4,
-  },
-  title: {
-    paddingBottom: Layout.spacing,
-    textAlign: "center",
-  },
-  itemContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  item: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: "33%",
-    alignContent: "center",
-  },
-  itemSpace: {
-    marginHorizontal: Layout.spacing,
-  },
-  label: {
-    textAlign: "center",
-  },
   stat: {
     fontWeight: "bold",
     fontSize: 22,
