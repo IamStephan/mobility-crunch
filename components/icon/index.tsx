@@ -1,11 +1,11 @@
 import React from "react"
-import { ViewProps, StyleSheet } from "react-native"
+import { ViewProps } from "react-native"
 //@ts-ignore
 import IconMaterial from "@expo/vector-icons/MaterialIcons"
 //@ts-ignore
-import IconMaterialCommunity from "@expo/vector-icons/MaterialIcons"
+import IconMaterialCommunity from "@expo/vector-icons/MaterialCommunityIcons"
 
-import { TypographySizes, Gray, Opacity } from "../../theme"
+import { TypographySizes, Gray } from "../../theme"
 
 export interface Props {
   name: string
@@ -34,7 +34,7 @@ const Icon: React.FC<Props> = ({
       )
     }
 
-    case "materialCommunity":
+    case "material":
     default: {
       return (
         <IconMaterial name={name} size={size} color={color} style={style} />
