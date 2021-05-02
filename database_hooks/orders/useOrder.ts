@@ -7,6 +7,12 @@ import { useFirebase, State } from "../../stores/useFirebase"
 
 const selector = (state: State) => ({ firebase: state.firebase })
 
+interface OrderMutations {
+  insertOrder: (data: Omit<OrdersData, "id">) => Promise<void>
+  editOrder: (orderID: string, data: Omit<OrdersData, "id">) => Promise<void>
+  deleteOrder: (orderID: string) => Promise<void>
+}
+
 export const useOrderData = (
   orderID: string
 ): DatabaseReturnType<OrdersData> => {
@@ -35,5 +41,30 @@ export const useOrderData = (
       error: error,
     },
     data: dataToReturn,
+  }
+}
+
+export const useOrderMutations = (): OrderMutations => {
+  const { firebase } = useFirebase(selector)
+
+  const insertOrder = async (data: Omit<OrdersData, "id">) => {
+    await firebase.firestore().collection("orders").doc().set(data)
+  }
+
+  const editOrder = async (
+    orderID: string,
+    data: Partial<Omit<OrdersData, "id">>
+  ) => {
+    await firebase.firestore().collection("orders").doc(orderID).update(data)
+  }
+
+  const deleteOrder = async (orderID: string) => {
+    await firebase.firestore().collection("orders").doc(orderID).delete()
+  }
+
+  return {
+    insertOrder,
+    editOrder,
+    deleteOrder,
   }
 }

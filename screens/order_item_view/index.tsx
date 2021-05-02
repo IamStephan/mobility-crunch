@@ -63,6 +63,7 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
           loading={stateOrder.loading}
           clientName={dataOrder?.client_name}
           clientEmail={dataOrder?.email}
+          phone={dataOrder?.phone}
           businessName={dataOrder?.business_name}
           secondEmail={dataOrder?.second_email}
           vatNumber={dataOrder?.vat_number}
@@ -120,7 +121,7 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
     if (stateOrderProducts.loading) {
       return (
         <View style={styles.container}>
-          {Array(4)
+          {Array(2)
             .fill(1)
             .map((_, index) => (
               <ListItemLoader

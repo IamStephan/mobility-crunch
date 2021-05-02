@@ -90,7 +90,6 @@ const InventoryItemUpsertFormSection: React.FC<Props> = ({
         heading="General Information"
         iconName="info"
         indentChildrenWithIcon={false}
-        showDivider={false}
       >
         <Form.Input
           control={control as any}

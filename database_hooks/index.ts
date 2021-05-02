@@ -23,8 +23,8 @@ export { ProductsData } from "./products/types"
 /**
  * ORDERS
  */
+export { useOrderData, useOrderMutations } from "./orders/useOrder"
 export { useOrdersData } from "./orders/useOrders"
-export { useOrderData } from "./orders/useOrder"
 export { OrdersData } from "./orders/types"
 
 /**

@@ -3,19 +3,42 @@ import { StyleSheet } from "react-native"
 import {
   createStackNavigator,
   StackNavigationOptions,
+  HeaderTitle,
+  StackHeaderTitleProps,
 } from "@react-navigation/stack"
+import { useRoute } from "@react-navigation/native"
 
 import { NavScreens } from "../../constants/screens"
 import OrderItemListScreen from "../../screens/order_item_list"
 import OrderItemViewScreen from "../../screens/order_item_view"
+import OrderItemUpsertScreen from "../../screens/order_item_upsert"
 
 // Dummy
 import Dummy from "../../components/dummy_view"
 
 const StackNav = createStackNavigator()
 
+const ItemUpsertHeaderTitle: React.FC<StackHeaderTitleProps> = ({
+  tintColor,
+}) => {
+  const { params } = useRoute()
+  if (params) {
+    return <HeaderTitle style={{ color: tintColor }}>Edit Order</HeaderTitle>
+  }
+
+  return <HeaderTitle style={{ color: tintColor }}>New Order</HeaderTitle>
+}
+
 const ItemListOptions: StackNavigationOptions = {
   headerTitle: "Order",
+}
+
+const OrderItemUpsertOptions: StackNavigationOptions = {
+  headerTitle: ItemUpsertHeaderTitle,
+}
+
+const OrderItemViewOptions: StackNavigationOptions = {
+  headerTitle: "Order overview",
 }
 
 const OrdersNavigator = () => {
@@ -32,18 +55,20 @@ const OrdersNavigator = () => {
         options={ItemListOptions}
         component={OrderItemListScreen}
       />
+      <StackNav.Screen
+        name={NavScreens.orderItemUpsert}
+        options={OrderItemUpsertOptions}
+        component={OrderItemUpsertScreen}
+      />
 
       {/**
        * ORDER ITEMS SCREENS
        */}
       <StackNav.Screen
         name={NavScreens.orderItemView}
+        options={OrderItemViewOptions}
         component={OrderItemViewScreen}
-        options={{
-          title: "Order overview",
-        }}
       />
-      <StackNav.Screen name={NavScreens.orderItemUpsert} component={Dummy} />
       <StackNav.Screen name={NavScreens.orderItemViewAs} component={Dummy} />
       <StackNav.Screen
         name={NavScreens.orderItemEditProductList}

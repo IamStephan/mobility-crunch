@@ -8,6 +8,7 @@ interface Props {
   loading?: boolean
   clientName: string
   clientEmail: string
+  phone?: string
   businessName?: string
   secondEmail?: string
   vatNumber?: string
@@ -34,6 +35,7 @@ const OrderItemViewInfoSection: React.FC<Partial<Props>> = ({
   loading,
   clientEmail,
   clientName,
+  phone,
   businessName,
   secondEmail,
   vatNumber,
@@ -73,6 +75,16 @@ const OrderItemViewInfoSection: React.FC<Partial<Props>> = ({
             label="Primary email"
             placeholderValue="stephan@frompeople.co.za"
           />
+        }
+      />
+
+      <LoadingSwitch
+        loading={loading}
+        loadedComponent={
+          <ListField label="Phone number" value={phone ? phone : "-----"} />
+        }
+        loadingComponent={
+          <ListFieldLoader label="Phone number" placeholderValue="0629098820" />
         }
       />
 

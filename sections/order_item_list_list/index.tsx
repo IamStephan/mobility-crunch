@@ -111,7 +111,7 @@ const OrderItemListListSection: React.FC<Props> = ({
     }
 
     return null
-  }, [])
+  }, [loading])
 
   return (
     <>

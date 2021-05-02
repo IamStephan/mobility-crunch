@@ -10,7 +10,7 @@ import { StyleSheet } from "react-native"
 import Modal from "../../components/modal"
 import Dropdown from "../../components/dropdown_menu"
 import { Gray, Red } from "../../theme"
-import { OrdersData } from "../../database_hooks"
+import { OrdersData, useOrderMutations } from "../../database_hooks"
 import { NavScreens } from "../../constants/screens"
 
 export interface RefFunctions {
@@ -29,6 +29,8 @@ const OrderItemListMoreModal = forwardRef(
     const [showDropdown, setShowDropdown] = useState(true)
     const [showConfirmation, setShowConfirmation] = useState(false)
     const [order, setOrder] = useState<OrdersData | null>(null)
+
+    const { deleteOrder } = useOrderMutations()
 
     const _handleOpenRequest = useCallback((order: OrdersData) => {
       setOrder(order)
@@ -51,7 +53,7 @@ const OrderItemListMoreModal = forwardRef(
 
     const _handeEditOrder = useCallback(() => {
       _handleCloseRequest()
-      navigateTo(NavScreens.inventoryItemUpsert, order)
+      navigateTo(NavScreens.orderItemUpsert, order)
     }, [order])
 
     const _handleDeleteRequest = useCallback(() => {
@@ -61,6 +63,10 @@ const OrderItemListMoreModal = forwardRef(
 
     const _handleDeleteConfirm = useCallback(async () => {
       setLoading(true)
+      if (order?.id) {
+        await deleteOrder(order.id)
+      }
+
       if (goBack) {
         goBack()
       }
