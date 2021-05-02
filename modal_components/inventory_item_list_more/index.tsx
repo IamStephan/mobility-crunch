@@ -20,10 +20,11 @@ export interface RefFunctions {
 
 interface Props {
   navigateTo: (name: string, params?: any) => void
+  goBack?: () => void
 }
 
 const InventoryItemListMoreModal = forwardRef(
-  ({ navigateTo }: Props, ref: Ref<RefFunctions>) => {
+  ({ navigateTo, goBack }: Props, ref: Ref<RefFunctions>) => {
     const [isOpen, setIsOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [showDropdown, setShowDropdown] = useState(true)
@@ -65,6 +66,9 @@ const InventoryItemListMoreModal = forwardRef(
       setLoading(true)
       if (product?.id) {
         await deleteProduct(product.id)
+      }
+      if (goBack) {
+        goBack()
       }
       _handleCloseRequest()
     }, [product])

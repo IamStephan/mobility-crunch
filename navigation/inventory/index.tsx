@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, TouchableOpacity } from "react-native"
 import {
   createStackNavigator,
   StackNavigationOptions,
@@ -18,7 +18,6 @@ import { ProductsData } from "../../database_hooks"
 import InventoryItemListScreen from "../../screens/inventory_item_list"
 import InventoryItemViewScreen from "../../screens/inventory_item_view"
 import InventoryItemUpsertScreen from "../../screens/inventory_item_upsert"
-import { TouchableOpacity } from "react-native-gesture-handler"
 
 const StackNav = createStackNavigator()
 

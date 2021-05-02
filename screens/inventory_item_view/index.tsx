@@ -5,10 +5,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { useProductData, ProductsData } from "../../database_hooks"
 import InventoryItemViewInfo from "../../sections/inventory_item_view_info"
 
-const InventoryIconViewSreen: React.FC<StackScreenProps<{}>> = ({
-  navigation,
-  route,
-}) => {
+const InventoryItonViewSreen: React.FC<StackScreenProps<{}>> = ({ route }) => {
   const product = route.params as ProductsData
 
   const { state, data } = useProductData(product.id)
@@ -24,4 +21,4 @@ const InventoryIconViewSreen: React.FC<StackScreenProps<{}>> = ({
   )
 }
 
-export default InventoryIconViewSreen
+export default InventoryItonViewSreen
