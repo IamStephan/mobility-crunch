@@ -17,7 +17,7 @@ const InventoryItemViewInfo: React.FC<Props> = ({
   productPrice,
 }) => {
   return (
-    <Section heading="General information" iconName="info-outline">
+    <Section heading="General information" iconName="info">
       <LoadingSwitch
         loading={loading}
         loadedComponent={

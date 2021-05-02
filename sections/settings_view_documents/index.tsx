@@ -34,7 +34,7 @@ const SettingsViewDocumentsSection: React.FC<Props> = ({
   return (
     <Section
       heading="Current document numbers"
-      iconName="file-document-outline"
+      iconName="file-document"
       iconVariant="materialCommunity"
     >
       <LoadingSwitch
