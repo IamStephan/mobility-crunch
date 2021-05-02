@@ -69,6 +69,10 @@ const InventoryItemListListSection: React.FC<Props> = ({
       }
     }
 
+    const _handleIconPress = () => {
+      modalRef.current?.openModal(item)
+    }
+
     return (
       <View onLayout={_handleSettingProbingHeight}>
         <ListItem
