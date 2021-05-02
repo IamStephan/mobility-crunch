@@ -1,5 +1,9 @@
 import React from "react"
-import { createStackNavigator } from "@react-navigation/stack"
+import { StyleSheet } from "react-native"
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from "@react-navigation/stack"
 
 import { NavScreens } from "../../constants/screens"
 import OrderItemListScreen from "../../screens/order_item_list"
@@ -10,19 +14,22 @@ import Dummy from "../../components/dummy_view"
 
 const StackNav = createStackNavigator()
 
+const ItemListOptions: StackNavigationOptions = {
+  headerTitle: "Order",
+}
+
 const OrdersNavigator = () => {
   return (
     <StackNav.Navigator
       initialRouteName={NavScreens.orderItemList}
       screenOptions={{
-        headerStyle: {
-          elevation: 0,
-        },
+        headerStyle: styles.header,
+        headerTitleAlign: "center",
       }}
     >
       <StackNav.Screen
         name={NavScreens.orderItemList}
-        options={{ headerTitle: "Orders" }}
+        options={ItemListOptions}
         component={OrderItemListScreen}
       />
 
@@ -49,5 +56,17 @@ const OrdersNavigator = () => {
     </StackNav.Navigator>
   )
 }
+
+const styles = StyleSheet.create({
+  header: {
+    elevation: 0,
+  },
+  headerIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    padding: 5,
+  },
+})
 
 export default OrdersNavigator

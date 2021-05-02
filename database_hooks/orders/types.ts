@@ -5,7 +5,6 @@ export interface OrdersData {
   email: string
   client_name: string
   state: "pending" | "complete"
-  docReference: firebase.firestore.DocumentReference
 
   business_name?: string
   city?: string

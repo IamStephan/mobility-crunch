@@ -1,49 +1,78 @@
-import React from "react"
+import React, { useRef, useCallback } from "react"
 import { View, StyleSheet } from "react-native"
-import { Button } from "react-native-paper"
 
-import Layout from "../../constants/layout"
+import Section from "../../components/section"
+import { Primary, Basic } from "../../components/button"
 
-const OrderItemViewActions = () => {
-  return null
+import OrderViewAsModal, {
+  RefFunctions as ViewAsModalRef,
+} from "../../modal_components/order_view_as"
+import OrderViewAsCopyTaxModal, {
+  RefFunctions as ViewAsCopyTaxModalRef,
+} from "../../modal_components/order_view_as_copy_tax"
+
+import { Spacing } from "../../theme"
+
+interface Props {
+  loading?: boolean
+  navigateTo: (name: string, params?: any) => void
+}
+
+const OrderItemViewActionSection: React.FC<Props> = ({
+  loading,
+  navigateTo,
+}) => {
+  const viewAsModalRef = useRef<ViewAsModalRef>(null)
+  const viewAsCopyTaxModalRef = useRef<ViewAsCopyTaxModalRef>(null)
+
+  const _handleViewAsPress = useCallback(() => {
+    viewAsModalRef.current?.openModal()
+  }, [])
+
+  const _handleViewAsCopyTaxPress = useCallback(() => {
+    viewAsCopyTaxModalRef.current?.openModal()
+  }, [])
+
   return (
-    <View style={styles.container} key="hi">
-      <Button
-        theme={{
-          roundness: 9999,
-        }}
-        style={{
-          backgroundColor: "green",
-          borderTopRightRadius: 0,
-          borderBottomRightRadius: 0,
-        }}
-        mode={"contained"}
+    <>
+      <Section
+        heading="Generate Documents"
+        iconName="file-document"
+        iconVariant="materialCommunity"
+        indentChildrenWithIcon={false}
       >
-        View as
-      </Button>
-      <Button
-        theme={{
-          roundness: 9999,
-        }}
-        style={{
-          // backgroundColor: "green",
-          borderTopLeftRadius: 0,
-          borderBottomLeftRadius: 0,
-        }}
-        mode={"outlined"}
-      >
-        Mark as
-      </Button>
-    </View>
+        <View style={styles.primaryDocs}>
+          <Basic
+            title="Generate as"
+            style={styles.buttonSpacing}
+            action={_handleViewAsPress}
+          />
+          <Basic
+            title="Copy tax"
+            style={styles.buttonSpacing}
+            action={_handleViewAsCopyTaxPress}
+          />
+        </View>
+      </Section>
+
+      <OrderViewAsModal ref={viewAsModalRef} navigateTo={navigateTo} />
+      <OrderViewAsCopyTaxModal
+        ref={viewAsCopyTaxModalRef}
+        navigateTo={navigateTo}
+      />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: Layout.spacing * 2,
+  primaryDocs: {
     flexDirection: "row",
     justifyContent: "center",
+    marginBottom: Spacing.lg,
+  },
+  buttonSpacing: {
+    marginHorizontal: Spacing.md,
   },
 })
 
-export default OrderItemViewActions
+export default OrderItemViewActionSection

@@ -1,10 +1,13 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useState, useRef } from "react"
 import { FlatList, LayoutChangeEvent, StyleSheet, View } from "react-native"
 
-import Layout from "../../constants/layout"
-import { NavScreens, NavContainers } from "../../constants/screens"
+import { Spacing } from "../../theme"
+import { NavScreens } from "../../constants/screens"
 import { OrdersData } from "../../database_hooks"
 import DetailedListItem, { ListItemLoader } from "../../components/list_item"
+import OrderItemListMoreModal, {
+  RefFunctions as ModalRef,
+} from "../../modal_components/order_item_list_more"
 
 interface Props {
   data: Array<OrdersData>
@@ -30,6 +33,8 @@ const OrderItemListListSection: React.FC<Props> = ({
   loading,
 }) => {
   const [itemProbingHeight, setItemProbingHeight] = useState(1)
+
+  const modalRef = useRef<ModalRef>(null)
 
   const _getItemLayoutHeight = useCallback(
     (_, index) => ({
@@ -72,7 +77,12 @@ const OrderItemListListSection: React.FC<Props> = ({
             item.business_name ? item.business_name : "--------",
             item.email,
           ]}
+          iconName="more-vert"
+          iconVariant="material"
           onPress={() => _handleItemNavigation(item)}
+          onIconPress={() => {
+            modalRef.current?.openModal(item)
+          }}
         />
       </View>
     )
@@ -85,7 +95,7 @@ const OrderItemListListSection: React.FC<Props> = ({
   const RenderEmptyList: React.FC = useCallback(() => {
     if (loading) {
       return (
-        <>
+        <View>
           {Array(10)
             .fill(1)
             .map((_, index) => (
@@ -93,9 +103,10 @@ const OrderItemListListSection: React.FC<Props> = ({
                 key={index}
                 title="Some loong aas title asd asdasd asd as dasd"
                 captions={["Stephan Burger", "stephanBurger54@gmail.com"]}
+                hasIcon
               />
             ))}
-        </>
+        </View>
       )
     }
 
@@ -103,22 +114,26 @@ const OrderItemListListSection: React.FC<Props> = ({
   }, [])
 
   return (
-    <FlatList
-      getItemLayout={_getItemLayoutHeight}
-      maxToRenderPerBatch={MaxRenderBatch}
-      data={data}
-      style={styles.list}
-      renderItem={RenderItem}
-      windowSize={WindowSize}
-      ListEmptyComponent={RenderEmptyList}
-    />
+    <>
+      <FlatList
+        getItemLayout={_getItemLayoutHeight}
+        maxToRenderPerBatch={MaxRenderBatch}
+        data={data}
+        style={styles.list}
+        renderItem={RenderItem}
+        windowSize={WindowSize}
+        ListEmptyComponent={RenderEmptyList}
+      />
+
+      <OrderItemListMoreModal ref={modalRef} navigateTo={navigateTo} />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    paddingHorizontal: Layout.spacing * 2,
+    paddingHorizontal: Spacing.xl,
   },
 })
 

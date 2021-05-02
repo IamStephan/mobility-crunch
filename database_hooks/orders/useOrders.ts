@@ -24,7 +24,6 @@ export const useOrdersData = (
         dataTempArr.push({
           ...item.data(),
           id: item.id,
-          docReference: item.ref,
         })
       })
 

@@ -24,7 +24,14 @@ export { ProductsData } from "./products/types"
  * ORDERS
  */
 export { useOrdersData } from "./orders/useOrders"
+export { useOrderData } from "./orders/useOrder"
 export { OrdersData } from "./orders/types"
+
+/**
+ * ORDER PRODUCTS
+ */
+export { useOrderProductsData } from "./order_products/useOrderProducts"
+export { OrderProductsData } from "./order_products/types"
 
 /**
  * SETTINGS

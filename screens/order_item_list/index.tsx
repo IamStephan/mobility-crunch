@@ -22,7 +22,10 @@ const OrderItemListScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.screen}>
-      <OrderItemListSearchSection onSearch={_handleOnSearch} />
+      <OrderItemListSearchSection
+        navigateTo={navigation.navigate}
+        onSearch={_handleOnSearch}
+      />
       <OrderItemListListSection
         navigateTo={navigation.navigate}
         data={data}
