@@ -10,9 +10,8 @@ import { StyleSheet } from "react-native"
 import Modal from "../../components/modal"
 import Dropdown from "../../components/dropdown_menu"
 import { Gray, Red } from "../../theme"
-import { ProductsData } from "../../database_hooks"
+import { ProductsData, useProductMutations } from "../../database_hooks"
 import { NavScreens } from "../../constants/screens"
-import { useProductMutations } from "../../database_hooks"
 
 export interface RefFunctions {
   openModal: (product: ProductsData) => void
