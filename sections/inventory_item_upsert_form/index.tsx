@@ -1,10 +1,15 @@
-import React, { useCallback } from "react"
-import { useForm } from "react-hook-form"
+import React, { useCallback, useState } from "react"
+import { Control, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
 import Form from "../../components/form"
-import Button from "../../components/button"
+import { ProductsData, useProductMutations } from "../../database_hooks"
+
+interface FormValues {
+  productName: string
+  productPrice: string
+}
 
 const formSchema = yup.object().shape({
   productName: yup.string().required("Name is required"),
@@ -15,14 +20,69 @@ const formSchema = yup.object().shape({
     .typeError("Price is required"),
 })
 
-const InventoryItemUpsertFormSection = () => {
-  const { control, handleSubmit } = useForm({
+interface Props {
+  type: "insert" | "edit"
+  data?: ProductsData
+  goBack: () => void
+}
+
+// Form Sections do not need live data
+const InventoryItemUpsertFormSection: React.FC<Props> = ({
+  type,
+  data,
+  goBack,
+}) => {
+  const [loading, setLoading] = useState(false)
+
+  const { insertProduct, editProduct } = useProductMutations()
+
+  const { control, handleSubmit } = useForm<FormValues>({
     resolver: yupResolver(formSchema),
+    defaultValues: {
+      productName: data?.name,
+      productPrice: data?.price ? `${data.price}` : "",
+    },
   })
 
-  const _onSubmit = useCallback((data) => {
-    console.log(data)
+  const _handleInsertProduct = useCallback(async (formData: FormValues) => {
+    await insertProduct({
+      name: formData.productName,
+      price: Number(formData.productPrice),
+    })
   }, [])
+
+  const _handleEditProduct = useCallback(async (formData: FormValues) => {
+    if (data?.id) {
+      await editProduct(data?.id, {
+        name: formData.productName,
+        price: Number(formData.productPrice),
+      })
+    }
+  }, [])
+
+  const _onSubmit = async (data: FormValues) => {
+    setLoading(true)
+
+    switch (type) {
+      case "edit": {
+        await _handleEditProduct(data)
+        goBack()
+        break
+      }
+      case "insert": {
+        await _handleInsertProduct(data)
+        goBack()
+        break
+      }
+
+      default: {
+        console.log("fuck")
+        break
+      }
+    }
+
+    setLoading(false)
+  }
 
   return (
     <Form>
@@ -33,13 +93,13 @@ const InventoryItemUpsertFormSection = () => {
         showDivider={false}
       >
         <Form.Input
-          control={control}
+          control={control as any}
           name="productName"
           label="Name"
           isRequired
         />
         <Form.Input
-          control={control}
+          control={control as any}
           name="productPrice"
           label="Price"
           keyboardType="number-pad"
@@ -47,8 +107,8 @@ const InventoryItemUpsertFormSection = () => {
         />
 
         <Form.Submit
-          title="Add Product"
-          loading={false}
+          title={type === "insert" ? "Add Product" : "Save Product"}
+          loading={loading}
           onSubmit={handleSubmit(_onSubmit)}
         />
       </Form.Section>

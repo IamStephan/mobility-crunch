@@ -16,6 +16,7 @@ export { DatabaseReturnType } from "./types"
 /**
  * PRODUCTS
  */
+export { useProductData, useProductMutations } from "./products/useProduct"
 export { useProductsData } from "./products/useProducts"
 export { ProductsData } from "./products/types"
 

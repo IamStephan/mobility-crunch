@@ -3,18 +3,25 @@ import React from "react"
 import Section from "../../components/section"
 import ListField, { ListFieldLoader } from "../../components/list_field"
 import LoadingSwitch from "../../components/loading_switch"
+import { ZAR } from "../../utils/formatNumber"
 
 interface Props {
+  productName?: string
+  productPrice?: number
   loading?: boolean
 }
 
-const InventoryItemViewInfo: React.FC<Props> = ({ loading }) => {
+const InventoryItemViewInfo: React.FC<Props> = ({
+  loading,
+  productName,
+  productPrice,
+}) => {
   return (
     <Section heading="General information" iconName="info-outline">
       <LoadingSwitch
         loading={loading}
         loadedComponent={
-          <ListField label="Name" value="Some weird ass wheelchair" />
+          <ListField label="Name" value={productName ? productName : ""} />
         }
         loadingComponent={
           <ListFieldLoader
@@ -26,7 +33,12 @@ const InventoryItemViewInfo: React.FC<Props> = ({ loading }) => {
 
       <LoadingSwitch
         loading={loading}
-        loadedComponent={<ListField label="Price" value="R5 000" />}
+        loadedComponent={
+          <ListField
+            label="Price"
+            value={ZAR(productPrice ? productPrice : 0)}
+          />
+        }
         loadingComponent={
           <ListFieldLoader label="Price" placeholderValue="R5 000" />
         }

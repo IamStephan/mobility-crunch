@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useState, useRef } from "react"
 import { FlatList, View, StyleSheet, LayoutChangeEvent } from "react-native"
 
 import { Spacing } from "../../theme"
@@ -6,6 +6,9 @@ import { NavScreens } from "../../constants/screens"
 import { ZAR } from "../../utils/formatNumber"
 import ListItem, { ListItemLoader } from "../../components/list_item"
 import { ProductsData } from "../../database_hooks"
+import InventoryItemListMore, {
+  RefFunctions as ModalRef,
+} from "../../modal_components/inventory_item_list_more"
 
 interface Props {
   data: Array<ProductsData>
@@ -32,6 +35,8 @@ const InventoryItemListListSection: React.FC<Props> = ({
 }) => {
   const [itemProbingHeight, setItemProbingHeight] = useState(1)
 
+  const modalRef = useRef<ModalRef>(null)
+
   const _getItemLayoutHeight = useCallback(
     (_, index) => ({
       length: itemProbingHeight,
@@ -41,8 +46,8 @@ const InventoryItemListListSection: React.FC<Props> = ({
     [itemProbingHeight]
   )
 
-  const _handleItemNavigation = useCallback(() => {
-    navigateTo(NavScreens.inventoryItemView)
+  const _handleItemNavigation = useCallback((product) => {
+    navigateTo(NavScreens.inventoryItemView, product)
   }, [])
 
   /**
@@ -70,9 +75,12 @@ const InventoryItemListListSection: React.FC<Props> = ({
           key={item.id}
           title={item.name}
           captions={[ZAR(item.price)]}
-          onPress={_handleItemNavigation}
+          onPress={() => _handleItemNavigation(item)}
           iconName="more-vert"
           iconVariant="material"
+          onIconPress={() => {
+            modalRef.current?.openModal(item)
+          }}
         />
       </View>
     )
@@ -105,15 +113,18 @@ const InventoryItemListListSection: React.FC<Props> = ({
   }, [loading])
 
   return (
-    <FlatList
-      getItemLayout={_getItemLayoutHeight}
-      maxToRenderPerBatch={MaxRenderBatch}
-      data={data}
-      style={styles.container}
-      renderItem={RenderItem}
-      windowSize={WindowSize}
-      ListEmptyComponent={RenderEmptyList}
-    />
+    <>
+      <FlatList
+        getItemLayout={_getItemLayoutHeight}
+        maxToRenderPerBatch={MaxRenderBatch}
+        data={data}
+        style={styles.container}
+        renderItem={RenderItem}
+        windowSize={WindowSize}
+        ListEmptyComponent={RenderEmptyList}
+      />
+      <InventoryItemListMore ref={modalRef} navigateTo={navigateTo} />
+    </>
   )
 }
 

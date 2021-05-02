@@ -63,7 +63,7 @@ const SettingsList: React.FC<Props> = ({ loading, debugMode, vatValue }) => {
       <Modal
         isOpen={isEditVatOpen}
         bottom={
-          <DropdownMenu>
+          <DropdownMenu title="Product Options">
             <DropdownMenu.Option
               title="Edit item"
               iconSuffixName="delete"

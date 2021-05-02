@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: TypographyFamily.regular,
     fontSize: TypographySizes.xs,
-    opacity: Opacity["opacity-75"],
+    opacity: Opacity["opacity-50"],
   },
 })
 

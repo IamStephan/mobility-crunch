@@ -3,9 +3,9 @@ import { Text, TextProps, StyleSheet } from "react-native"
 
 import { TypographySizes, TypographyFamily, Spacing, Gray } from "../../theme"
 
-const Title: React.FC<TextProps> = ({ children, ...rest }) => {
+const Title: React.FC<TextProps> = ({ children, style, ...rest }) => {
   return (
-    <Text {...rest} style={styles.text}>
+    <Text {...rest} style={[styles.text, style]}>
       {children}
     </Text>
   )
