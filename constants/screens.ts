@@ -19,7 +19,8 @@ export const NavScreens = {
   /**
    * Settings
    */
-  settingsList: "SettingsList",
+  settingsView: "SettingsView",
+  settingsEdit: "SettingsEdit",
 }
 
 export const NavContainers = {
