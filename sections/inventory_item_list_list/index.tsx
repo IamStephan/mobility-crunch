@@ -1,13 +1,11 @@
 import React, { useCallback, useState } from "react"
-import { FlatList, LayoutChangeEvent, StyleSheet, View } from "react-native"
+import { FlatList, View, StyleSheet, LayoutChangeEvent } from "react-native"
 
-import Layout from "../../constants/layout"
+import { Spacing } from "../../theme"
 import { NavScreens } from "../../constants/screens"
 import { ZAR } from "../../utils/formatNumber"
+import ListItem, { ListItemLoader } from "../../components/list_item"
 import { ProductsData } from "../../database_hooks"
-import DetailedListItem, {
-  DetailedListItemLoader,
-} from "../../components/detailed_list_item"
 
 interface Props {
   data: Array<ProductsData>
@@ -68,11 +66,13 @@ const InventoryItemListListSection: React.FC<Props> = ({
 
     return (
       <View onLayout={_handleSettingProbingHeight}>
-        <DetailedListItem
+        <ListItem
           key={item.id}
           title={item.name}
           captions={[ZAR(item.price)]}
           onPress={_handleItemNavigation}
+          iconName="more-vert"
+          iconVariant="material"
         />
       </View>
     )
@@ -85,29 +85,31 @@ const InventoryItemListListSection: React.FC<Props> = ({
   const RenderEmptyList: React.FC = useCallback(() => {
     if (loading) {
       return (
-        <>
+        <View>
           {Array(10)
             .fill(1)
             .map((_, index) => (
-              <DetailedListItemLoader
+              <ListItemLoader
                 key={index}
                 title="Some loong aas title asd asdasd asd as dasd"
                 captions={["R600.00"]}
+                hasIcon
               />
             ))}
-        </>
+        </View>
       )
     }
 
+    // TODO: create empty list not found comp
     return null
-  }, [])
+  }, [loading])
 
   return (
     <FlatList
       getItemLayout={_getItemLayoutHeight}
       maxToRenderPerBatch={MaxRenderBatch}
       data={data}
-      style={styles.list}
+      style={styles.container}
       renderItem={RenderItem}
       windowSize={WindowSize}
       ListEmptyComponent={RenderEmptyList}
@@ -116,9 +118,8 @@ const InventoryItemListListSection: React.FC<Props> = ({
 }
 
 const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-    paddingHorizontal: Layout.spacing * 2,
+  container: {
+    paddingHorizontal: Spacing.xl,
   },
 })
 

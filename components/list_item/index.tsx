@@ -1,10 +1,9 @@
 import React from "react"
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
-import { Caption } from "react-native-paper"
-//@ts-ignore
-import Icon from "@expo/vector-icons/MaterialIcons"
+import { View, StyleSheet, TouchableOpacity } from "react-native"
 
-import Layout from "../../constants/layout"
+import { Spacing } from "../../theme"
+import { Title, Paragraph } from "../text"
+import Icon, { Props as IconProps } from "../icon"
 import LoadingIcon from "../../components/loading_icon"
 import LoadingText from "../../components/loading_text"
 
@@ -12,34 +11,32 @@ interface Props {
   title: string
   captions: Array<string>
   iconName?: string
+  iconVariant?: IconProps["variant"]
   onPress?: () => void
   onIconPress?: () => void
 }
 
-const DetailedListItem: React.FC<Props> = ({
+const ListItem: React.FC<Props> = ({
   title,
   captions,
   iconName,
+  iconVariant,
   onPress,
   onIconPress,
 }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.textContainer}>
+      <View style={styles.textWrapper}>
         <TouchableOpacity onPress={onPress}>
-          <View>
-            <Text style={styles.title} numberOfLines={1}>
-              {title}
-            </Text>
-            {captions.map((caption, index) => (
-              <Caption key={index}>{caption}</Caption>
-            ))}
+          <View style={styles.textContainer}>
+            <Title numberOfLines={1}>{title}</Title>
+            <Paragraph>{captions.join("\n")}</Paragraph>
           </View>
         </TouchableOpacity>
       </View>
       {!!iconName && (
         <TouchableOpacity style={styles.iconContainer} onPress={onIconPress}>
-          <Icon style={[styles.icon]} name={iconName} size={20} />
+          <Icon name={iconName} variant={iconVariant} />
         </TouchableOpacity>
       )}
     </View>
@@ -52,24 +49,23 @@ interface LoaderProps {
   captions?: Array<string>
 }
 
-export const DetailedListItemLoader: React.FC<LoaderProps> = ({
+export const ListItemLoader: React.FC<LoaderProps> = ({
   hasIcon,
   title = "Loading Title",
   captions = [],
 }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <View>
+      <View style={styles.textWrapper}>
+        <View style={styles.textContainer}>
           <LoadingText
-            Component={Text}
-            style={styles.title}
+            Component={Title as any}
             alignText="flex-start"
             text={title}
           />
           {captions.map((caption, index) => (
             <LoadingText
-              Component={Caption as any}
+              Component={Paragraph as any}
               alignText="flex-start"
               text={caption}
               key={index}
@@ -91,22 +87,18 @@ export const DetailedListItemLoader: React.FC<LoaderProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginVertical: Layout.spacing,
   },
-  textContainer: {
+  textWrapper: {
     flex: 1,
   },
-  title: {
-    fontSize: 16,
+  textContainer: {
+    paddingVertical: Spacing.md,
   },
   iconContainer: {
-    paddingLeft: Layout.spacing * 2,
+    paddingLeft: Spacing.lg,
     justifyContent: "center",
     alignItems: "center",
   },
-  icon: {
-    opacity: 0.75,
-  },
 })
 
-export default DetailedListItem
+export default ListItem

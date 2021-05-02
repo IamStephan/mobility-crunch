@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 import { NavScreens } from "../../constants/screens"
 import OrderItemListScreen from "../../screens/order_item_list"
+import OrderItemViewScreen from "../../screens/order_item_view"
 
 // Dummy
 import Dummy from "../../components/dummy_view"
@@ -28,8 +29,14 @@ const OrdersNavigator = () => {
       {/**
        * ORDER ITEMS SCREENS
        */}
+      <StackNav.Screen
+        name={NavScreens.orderItemView}
+        component={OrderItemViewScreen}
+        options={{
+          title: "Order overview",
+        }}
+      />
       <StackNav.Screen name={NavScreens.orderItemUpsert} component={Dummy} />
-      <StackNav.Screen name={NavScreens.orderItemView} component={Dummy} />
       <StackNav.Screen name={NavScreens.orderItemViewAs} component={Dummy} />
       <StackNav.Screen
         name={NavScreens.orderItemEditProductList}

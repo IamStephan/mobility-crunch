@@ -1,11 +1,22 @@
 import React from "react"
-import { View, Text } from "react-native"
+import { ScrollView } from "react-native"
+import { useForm } from "react-hook-form"
+
+import Icon from "./icon"
+
+import TextInput from "./text_input"
 
 const DummyView = () => {
+  const { control } = useForm()
+
   return (
-    <View>
-      <Text>Dummy View</Text>
-    </View>
+    <ScrollView
+      style={{
+        padding: 16,
+      }}
+    >
+      <TextInput placeholder="Placeholder" prefix={<Icon name="search" />} />
+    </ScrollView>
   )
 }
 

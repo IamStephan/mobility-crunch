@@ -13,7 +13,8 @@ export const useProductsData = (
   const [data, setData] = useState<Array<ProductsData>>([])
   const { firebase } = useFirebase(selector)
 
-  const query = firebase.firestore().collection("products")
+  // Temp Limit
+  const query = firebase.firestore().collection("products").limit(25)
   const [items, loading, error] = useCollection<Omit<ProductsData, "id">>(query)
 
   useEffect(() => {

@@ -1,20 +1,31 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { View, StyleSheet } from "react-native"
+import { StackScreenProps } from "@react-navigation/stack"
 
 import Searchbox from "../../components/search"
-import Layout from "../../constants/layout"
+import { NavScreens } from "../../constants/screens"
+import { Spacing } from "../../theme"
 
 interface Props {
   onSearch: (text: string) => void
+  navigateTo: (name: string, params?: any) => void
 }
 
-const InventoryItemListSearchSection: React.FC<Props> = ({ onSearch }) => {
+const InventoryItemListSearchSection: React.FC<Props> = ({
+  onSearch,
+  navigateTo,
+}) => {
+  const _handleAction = useCallback(() => {
+    navigateTo(NavScreens.inventoryItemUpsert)
+  }, [])
+
   return (
     <View style={styles.container}>
       <Searchbox
         onSearch={onSearch}
-        iconName="plus-circle-outline"
-        placeholder="Product Name..."
+        iconName="add"
+        placeholder="Product name..."
+        iconAction={_handleAction}
       />
     </View>
   )
@@ -22,7 +33,7 @@ const InventoryItemListSearchSection: React.FC<Props> = ({ onSearch }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Layout.spacing * 2,
+    paddingHorizontal: Spacing.lg,
   },
 })
 

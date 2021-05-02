@@ -13,7 +13,8 @@ export const useOrdersData = (
   const [data, setData] = useState<Array<OrdersData>>([])
   const { firebase } = useFirebase(selector)
 
-  const query = firebase.firestore().collection("orders")
+  // Temp Limit
+  const query = firebase.firestore().collection("orders").limit(30)
   const [items, loading, error] = useCollection<Omit<OrdersData, "id">>(query)
 
   useEffect(() => {
@@ -21,8 +22,9 @@ export const useOrdersData = (
       let dataTempArr: Array<OrdersData> = [] as any
       items.forEach((item) => {
         dataTempArr.push({
-          id: item.id,
           ...item.data(),
+          id: item.id,
+          docReference: item.ref,
         })
       })
 

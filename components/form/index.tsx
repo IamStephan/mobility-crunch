@@ -1,19 +1,25 @@
 import React from "react"
-import { Div } from "react-native-magnus"
+import { View, StyleSheet } from "react-native"
 
-import FormSection from "./form_section"
+import { Spacing } from "../../theme"
+
+import Section from "../section"
 import FormInputText from "./form_text_input"
+import FormSubmit from "./form_submit"
 
 interface FormComponents {
-  Section: typeof FormSection
+  Section: typeof Section
   Input: typeof FormInputText
+  Submit: typeof FormSubmit
 }
 
 const Form: React.FC & FormComponents = ({ children }) => {
-  return <Div px="lg">{children}</Div>
+  return <View>{children}</View>
 }
 
-Form.Section = FormSection
+// Proxy Component
+Form.Section = Section
 Form.Input = FormInputText
+Form.Submit = FormSubmit
 
 export default Form

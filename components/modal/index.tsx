@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useLayoutEffect, useCallback } from "react"
 import {
   View,
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
-  // Types
   LayoutChangeEvent,
+  StatusBar,
+  BackHandler,
 } from "react-native"
 import { Portal } from "@gorhom/portal"
 import Animated, {
@@ -17,11 +18,15 @@ import Animated, {
 } from "react-native-reanimated"
 
 import { PortalHosts } from "../../constants/portal_hosts"
-import Layout from "../../constants/layout"
+import { Spacing } from "../../theme"
 
 export interface Props {
   isOpen: boolean
   layer?: number
+  bottom?: React.ReactNode
+  showBottom?: boolean
+  top?: React.ReactNode
+  showTop?: boolean
   onCloseRequest: () => void
   onModalClosed?: () => void
 }
@@ -31,18 +36,27 @@ const AnimationConfig = {
   easing: Easing.inOut(Easing.quad),
 }
 
+const AnimationImediateConfig = {
+  duration: 10,
+  easing: Easing.inOut(Easing.quad),
+}
+
 const Modal: React.FC<Props> = ({
   isOpen,
   layer = 1,
+  bottom,
+  showBottom,
+  top,
+  showTop,
   onCloseRequest,
   onModalClosed = () => {},
-  children,
 }) => {
-  const [containerHeight, setContainerHeight] = useState(0)
+  const [containerBottomHeight, setContainerBottomHeight] = useState(0)
+  const [containerTopHeight, setContainerTopHeight] = useState(0)
+  const [isLocalOpen, setIsLocalOpen] = useState(false)
   const [isLayoutReady, setIsLayoutReady] = useState(false)
 
   const opacityV = useSharedValue(0)
-  const transformXV = useSharedValue(0)
 
   /**
    * Animation styles
@@ -51,13 +65,39 @@ const Modal: React.FC<Props> = ({
     opacity: opacityV.value,
   }))
 
-  const containerAnimStyles = useAnimatedStyle(() => ({
-    transform: [{ translateY: transformXV.value }],
+  const bottomContainerAnimStyles = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: withTiming(
+          isOpen && showBottom
+            ? 0
+            : containerBottomHeight > 0
+            ? containerBottomHeight
+            : 9999,
+          AnimationConfig
+        ),
+      },
+    ],
+  }))
+
+  const topContainerAnimStyles = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: withTiming(
+          isOpen && showTop
+            ? 0
+            : containerTopHeight > 0
+            ? -containerTopHeight
+            : -9999,
+          AnimationConfig
+        ),
+      },
+    ],
   }))
 
   /**
    * Styles of the container depending on
-   * whether the lauout height has been calculated
+   * whether the layout height has been calculated
    * or not
    */
   const containerLayoutStyles = {
@@ -65,21 +105,52 @@ const Modal: React.FC<Props> = ({
     // Allows for modals to be stacked
     zIndex: layer,
   }
+
   /**
    * Update animation values based on the open state
    * of the modal
    */
   useEffect(() => {
-    // Check for modal close state and run onModalClose props
-    opacityV.value = withTiming(isOpen ? 1 : 0, AnimationConfig, (finished) => {
-      "worklet"
-      runOnJS(_handleModalClose)(!!isOpen, finished)
-    })
+    if (isLayoutReady) {
+      // Check for modal close state and run onModalClose props
+      opacityV.value = withTiming(
+        isOpen ? 1 : 0,
+        AnimationConfig,
+        (finished) => {
+          "worklet"
+          runOnJS(_handleModalClose)(!!isOpen, finished)
+        }
+      )
+    }
+  }, [isOpen, isLayoutReady])
 
-    transformXV.value = withTiming(
-      isOpen ? 0 : containerHeight,
-      AnimationConfig
+  /**
+   * Render Content only when modal isOpen
+   * props is true
+   */
+  useLayoutEffect(() => {
+    if (isOpen) {
+      setIsLocalOpen(true)
+    }
+  }, [isOpen])
+
+  /**
+   * ANDROID SPECIFIC
+   */
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        if (isOpen) {
+          _handleCloseRequest()
+          return true
+        }
+
+        return false
+      }
     )
+
+    return () => backHandler.remove()
   }, [isOpen])
 
   /**
@@ -89,20 +160,38 @@ const Modal: React.FC<Props> = ({
   useEffect(() => {
     // This should never be 0 since the container
     // already has padding inside of it
-    if (containerHeight) {
-      transformXV.value = containerHeight
-      setIsLayoutReady(true)
+    if (!isLayoutReady) {
+      if (containerBottomHeight || containerTopHeight) setIsLayoutReady(true)
     }
-  }, [containerHeight])
+  }, [containerBottomHeight, containerTopHeight, isLayoutReady])
 
   /**
    * Calculate the height of the modal based on the content
    * inside of it
+   *
+   * Note:
+   * this cannot be in a useCallback since
+   * the arguments passed cannot be accessed
+   * by the callback dependencies
    */
-  const _handleLayout = useCallback((e: LayoutChangeEvent) => {
+  const _handleBottomLayout = (e: LayoutChangeEvent) => {
     const height = e.nativeEvent.layout.height
-    setContainerHeight(height)
-  }, [])
+    setContainerBottomHeight(height)
+  }
+
+  /**
+   * Calculate the height of the modal based on the content
+   * inside of it
+   *
+   * Note:
+   * this cannot be in a useCallback since
+   * the arguments passed cannot be accessed
+   * by the callback dependencies
+   */
+  const _handleTopLayout = (e: LayoutChangeEvent) => {
+    const height = e.nativeEvent.layout.height
+    setContainerTopHeight(height)
+  }
 
   /**
    * When the user presses the overlay backdrop
@@ -112,7 +201,7 @@ const Modal: React.FC<Props> = ({
     // Dismiss the keyboard if it where activated by any internal inputs
     Keyboard.dismiss()
     onCloseRequest()
-  }, [])
+  }, [onCloseRequest])
 
   /**
    * Only call the close prop when the the animation
@@ -122,13 +211,16 @@ const Modal: React.FC<Props> = ({
     (isOpen: boolean, isFinished: boolean) => {
       if (!isOpen && isFinished) {
         onModalClosed()
+        setIsLocalOpen(false)
       }
     },
-    []
+    [onModalClosed]
   )
 
+  if (!isLocalOpen) return null
+
   return (
-    <Portal name={PortalHosts.modals}>
+    <Portal hostName={PortalHosts.modals}>
       <View
         pointerEvents={isLayoutReady && isOpen ? "auto" : "none"}
         style={[styles.constainer, containerLayoutStyles]}
@@ -140,10 +232,25 @@ const Modal: React.FC<Props> = ({
         </Animated.View>
 
         <Animated.View
-          style={[styles.menuContainer, containerAnimStyles]}
-          onLayout={_handleLayout}
+          style={[styles.menuTopContainer, topContainerAnimStyles]}
+          onLayout={_handleTopLayout}
         >
-          {children}
+          {/**
+           * Weird negating logic to keep the top
+           * open while its closing
+           */}
+          {!isLocalOpen && !showTop ? null : top}
+        </Animated.View>
+
+        <Animated.View
+          style={[styles.menuBottomContainer, bottomContainerAnimStyles]}
+          onLayout={_handleBottomLayout}
+        >
+          {/**
+           * Weird negating logic to keep the bottom
+           * open while its closing
+           */}
+          {!isLocalOpen && !showBottom ? null : bottom}
         </Animated.View>
       </View>
     </Portal>
@@ -169,20 +276,31 @@ const styles = StyleSheet.create({
   overlayPressable: {
     flex: 1,
   },
-  menuContainer: {
+  menuBottomContainer: {
     backgroundColor: "white",
-    borderTopLeftRadius: Layout.spacing,
-    borderTopRightRadius: Layout.spacing,
-    paddingVertical: Layout.spacing,
-    paddingHorizontal: Layout.spacing * 2,
+    borderTopLeftRadius: Spacing.sm,
+    borderTopRightRadius: Spacing.sm,
+    paddingTop: Spacing.sm,
     left: 0,
     overflow: "hidden",
     position: "absolute",
     right: 0,
     bottom: 0,
   },
+  menuTopContainer: {
+    backgroundColor: "white",
+    borderBottomLeftRadius: Spacing.sm,
+    borderBottomRightRadius: Spacing.sm,
+    paddingBottom: Spacing.sm,
+    paddingTop: StatusBar.currentHeight
+      ? StatusBar.currentHeight + Spacing.sm
+      : 0,
+    left: 0,
+    overflow: "hidden",
+    position: "absolute",
+    right: 0,
+    top: 0,
+  },
 })
-
-// TODO: Do not show backdrop color when it is stacked but still have it pressable
 
 export default Modal

@@ -34,13 +34,7 @@ const SettingsDocumentNumbers: React.FC<Props> = ({
 }) => {
   return (
     <Div p="lg" mb="xl">
-      <Text
-        mb="lg"
-        textAlign="center"
-        fontWeight="700"
-        fontSize="3xl"
-        color="gray900"
-      >
+      <Text mb="lg" fontWeight="500" fontSize="3xl" color="gray900">
         Current Numbers
       </Text>
       <Div row justifyContent="center">
@@ -92,14 +86,5 @@ const SettingsDocumentNumbers: React.FC<Props> = ({
     </Div>
   )
 }
-
-const styles = StyleSheet.create({
-  stat: {
-    fontWeight: "bold",
-    fontSize: 22,
-    textAlign: "center",
-    color: "green",
-  },
-})
 
 export default SettingsDocumentNumbers

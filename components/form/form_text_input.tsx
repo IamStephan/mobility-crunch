@@ -1,13 +1,18 @@
 import React from "react"
 import { Control, Controller } from "react-hook-form"
-import { Input, Text, Div } from "react-native-magnus"
+import { View, StyleSheet, KeyboardTypeOptions } from "react-native"
+
+import { Spacing, Red, Border } from "../../theme"
+import TextInput from "../text_input"
+import { Label } from "../text"
 
 interface Props {
   label: string
   name: string
   control: Control
-  isOptional?: boolean
-  description?: string
+  keyboardType?: KeyboardTypeOptions
+  placeholder?: string
+  isRequired?: boolean
   suffix?: React.ReactNode
   prefix?: React.ReactNode
 }
@@ -16,8 +21,9 @@ const FormTextInput: React.FC<Props> = ({
   label,
   control,
   name,
-  isOptional,
-  description,
+  keyboardType,
+  placeholder,
+  isRequired,
   suffix,
   prefix,
 }) => {
@@ -29,34 +35,47 @@ const FormTextInput: React.FC<Props> = ({
         field: { onChange, onBlur, value },
         fieldState: { error },
       }) => (
-        <Div mb="lg">
-          <Text mb="xs" color="gray900">
-            {label} {isOptional && <Text color="gray500">(optional)</Text>}
-          </Text>
-          <Input
-            focusBorderColor="green600"
-            color="gray900"
-            py="sm"
-            px="lg"
+        <View style={styles.container}>
+          <Label style={styles.titleLabel}>
+            {label}{" "}
+            {isRequired && <Label style={styles.requiredLabel}>*</Label>}
+          </Label>
+          <TextInput
+            placeholder={placeholder}
             onBlur={onBlur}
             onChangeText={(value) => onChange(value)}
             value={value}
             prefix={prefix}
             suffix={suffix}
+            keyboardType={keyboardType}
           />
-          {!!error?.message ? (
-            <Text color="red500" mt="xs">
-              {error.message}
-            </Text>
-          ) : description ? (
-            <Text color="gray500" mt="xs">
-              {description}
-            </Text>
-          ) : null}
-        </Div>
+          {!!error?.message && (
+            <Label style={styles.errorLabel}>{error.message}</Label>
+          )}
+        </View>
       )}
     />
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: Spacing.lg,
+  },
+  titleLabel: {
+    marginBottom: Border.radius,
+    marginLeft: Border.radius,
+  },
+  requiredLabel: {
+    color: Red.red600,
+    opacity: 1,
+  },
+  errorLabel: {
+    marginTop: Border.radius,
+    marginLeft: Border.radius,
+    color: Red.red600,
+    opacity: 1,
+  },
+})
 
 export default FormTextInput

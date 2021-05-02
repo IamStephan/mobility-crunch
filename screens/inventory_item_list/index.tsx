@@ -6,9 +6,9 @@ import { useProductsData } from "../../database_hooks"
 import InventoryItemListSearchSection from "../../sections/inventory_item_list_search"
 import InventoryItemListListSection from "../../sections/inventory_item_list_list"
 
-interface Props extends StackScreenProps<{}> {}
-
-const InventoryItemListScreen: React.FC<Props> = ({ navigation }) => {
+const InventoryItemListScreen: React.FC<StackScreenProps<{}>> = ({
+  navigation,
+}) => {
   const [searchTerm, setSearchTerm] = useState("")
   const { data = [], state } = useProductsData(searchTerm)
 
@@ -22,7 +22,10 @@ const InventoryItemListScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.screen}>
-      <InventoryItemListSearchSection onSearch={_handleOnSearch} />
+      <InventoryItemListSearchSection
+        navigateTo={navigation.navigate}
+        onSearch={_handleOnSearch}
+      />
       <InventoryItemListListSection
         navigateTo={navigation.navigate}
         data={data}

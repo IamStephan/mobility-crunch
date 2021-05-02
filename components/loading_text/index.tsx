@@ -55,7 +55,10 @@ const LoadingText: React.FC<Props> = ({
 
   return (
     <View style={ContainerStyles}>
-      <Component style={[styles.text, style]}>{text}</Component>
+      <View style={styles.textContainer}>
+        <Component style={style}>{text}</Component>
+      </View>
+
       <Animated.View style={[AnimContainerStyles, styles.loader]} />
     </View>
   )
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderRadius: Layout.spacing / 2,
   },
-  text: {
+  textContainer: {
     opacity: 0,
   },
 })

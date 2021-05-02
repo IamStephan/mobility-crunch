@@ -1,11 +1,15 @@
 import React, { useCallback, useState } from "react"
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet, Text } from "react-native"
+import { Button } from "react-native-magnus"
 import { Title } from "react-native-paper"
 
 import ListField, { ListFieldLoader } from "../../components/list_field"
 import LoadingSwitch from "../../components/loading_switch"
-import EditVatPercentageModal from "../../modal_components/edit_vat_percentage"
+import Modal from "../../components/modal"
 import Layout from "../../constants/layout"
+
+import DropdownMenu from "../../components/dropdown_menu"
+import { Red } from "../../theme"
 
 interface Props {
   loading?: boolean
@@ -15,6 +19,7 @@ interface Props {
 
 const SettingsList: React.FC<Props> = ({ loading, debugMode, vatValue }) => {
   const [isEditVatOpen, setIsEditVatOpen] = useState(false)
+  const [showTop, setShopTop] = useState(false)
 
   const _openEditVatModal = useCallback(() => setIsEditVatOpen(true), [])
   const _onCloseEloseEditVatModalRequest = useCallback(
@@ -28,19 +33,10 @@ const SettingsList: React.FC<Props> = ({ loading, debugMode, vatValue }) => {
       <LoadingSwitch
         loading={loading}
         loadedComponent={
-          <ListField
-            label="Vat Percentage"
-            value={`${vatValue}%`}
-            iconName="circle-edit-outline"
-            action={_openEditVatModal}
-          />
+          <ListField label="Vat Percentage" value={`${vatValue}%`} />
         }
         loadingComponent={
-          <ListFieldLoader
-            hasIcon
-            label="Vat Percentage"
-            placeholderValue="15%"
-          />
+          <ListFieldLoader label="Vat Percentage" placeholderValue="15%" />
         }
       />
 
@@ -62,9 +58,22 @@ const SettingsList: React.FC<Props> = ({ loading, debugMode, vatValue }) => {
         }
       />
 
-      <EditVatPercentageModal
+      <Button onPress={_openEditVatModal}>Open Modal</Button>
+
+      <Modal
         isOpen={isEditVatOpen}
-        trueVat={`${vatValue}`}
+        bottom={
+          <DropdownMenu>
+            <DropdownMenu.Option
+              title="Edit item"
+              iconSuffixName="delete"
+              iconSuffixColor={Red.red500}
+            />
+          </DropdownMenu>
+        }
+        showBottom
+        top={<Text>Top</Text>}
+        showTop={showTop}
         onCloseRequest={_onCloseEloseEditVatModalRequest}
       />
     </View>
@@ -73,7 +82,7 @@ const SettingsList: React.FC<Props> = ({ loading, debugMode, vatValue }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Layout.spacing * 2,
+    // paddingHorizontal: Layout.spacing * 2,
   },
   title: {
     paddingBottom: Layout.spacing,

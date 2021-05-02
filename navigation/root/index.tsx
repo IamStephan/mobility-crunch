@@ -4,15 +4,32 @@ import {
   BottomTabBarOptions,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs"
-//@ts-ignore
-import Icon from "@expo/vector-icons/MaterialIcons"
 
+import { Green, Gray, Border } from "../../theme"
 import { NavContainers } from "../../constants/screens"
+
+import Icon from "../../components/icon"
+
 import InventoryNavigator from "../inventory"
 import OrdersNavigator from "../orders"
 import SettingsNavigator from "../settings"
 
 const RootTabNavigator = createBottomTabNavigator()
+
+const styles = StyleSheet.create({
+  tab: {
+    elevation: 0,
+    borderTopColor: Gray.gray300,
+    borderTopWidth: Border.width,
+  },
+})
+
+const DefaultTabBarOptions: BottomTabBarOptions = {
+  style: styles.tab,
+  keyboardHidesTabBar: true,
+  activeTintColor: Green.green500,
+  inactiveTintColor: Gray.gray500,
+}
 
 interface TabOptionsI {
   tabBarLabel: string
@@ -41,7 +58,7 @@ const SettingsTabOptions = TabOptions("Settings", "settings")
 const RootNavigator = () => {
   return (
     <RootTabNavigator.Navigator
-      initialRouteName={NavContainers.orderItemContainer}
+      initialRouteName={NavContainers.inventoryItemContainer}
       tabBarOptions={DefaultTabBarOptions}
     >
       <RootTabNavigator.Screen
@@ -61,18 +78,6 @@ const RootNavigator = () => {
       />
     </RootTabNavigator.Navigator>
   )
-}
-
-const styles = StyleSheet.create({
-  tab: {
-    elevation: 0,
-  },
-})
-
-const DefaultTabBarOptions: BottomTabBarOptions = {
-  style: styles.tab,
-  keyboardHidesTabBar: true,
-  activeTintColor: "green",
 }
 
 /**

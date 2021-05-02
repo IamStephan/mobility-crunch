@@ -1,0 +1,6 @@
+export { default as Heading } from "./heading"
+export { default as SubHeading } from "./sub_heading"
+export { default as Title } from "./title"
+export { default as Paragraph } from "./paragraph"
+export { default as Label } from "./label"
+export { default as Caption } from "./caption"

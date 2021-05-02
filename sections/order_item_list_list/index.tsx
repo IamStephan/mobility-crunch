@@ -4,9 +4,7 @@ import { FlatList, LayoutChangeEvent, StyleSheet, View } from "react-native"
 import Layout from "../../constants/layout"
 import { NavScreens, NavContainers } from "../../constants/screens"
 import { OrdersData } from "../../database_hooks"
-import DetailedListItem, {
-  DetailedListItemLoader,
-} from "../../components/detailed_list_item"
+import DetailedListItem, { ListItemLoader } from "../../components/list_item"
 
 interface Props {
   data: Array<OrdersData>
@@ -42,8 +40,8 @@ const OrderItemListListSection: React.FC<Props> = ({
     [itemProbingHeight]
   )
 
-  const _handleItemNavigation = useCallback(() => {
-    navigateTo(NavScreens.orderItemView)
+  const _handleItemNavigation = useCallback((params) => {
+    navigateTo(NavScreens.orderItemView, params)
   }, [])
 
   /**
@@ -69,9 +67,12 @@ const OrderItemListListSection: React.FC<Props> = ({
       <View onLayout={_handleSettingProbingHeight}>
         <DetailedListItem
           key={item.id}
-          title={item.business_name ? item.business_name : item.client_name}
-          captions={[item.email]}
-          onPress={_handleItemNavigation}
+          title={item.client_name}
+          captions={[
+            item.business_name ? item.business_name : "--------",
+            item.email,
+          ]}
+          onPress={() => _handleItemNavigation(item)}
         />
       </View>
     )
@@ -88,7 +89,7 @@ const OrderItemListListSection: React.FC<Props> = ({
           {Array(10)
             .fill(1)
             .map((_, index) => (
-              <DetailedListItemLoader
+              <ListItemLoader
                 key={index}
                 title="Some loong aas title asd asdasd asd as dasd"
                 captions={["Stephan Burger", "stephanBurger54@gmail.com"]}

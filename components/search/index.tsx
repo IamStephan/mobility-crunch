@@ -1,15 +1,18 @@
 import React, { useCallback, useState } from "react"
 import { View, StyleSheet } from "react-native"
-import { Searchbar, IconButton } from "react-native-paper"
 import useDebounce from "react-use/lib/useDebounce"
 
-import Layout from "../../constants/layout"
+import TextInput from "../../components/text_input"
+import Icon, { Props as IconProps } from "../../components/icon"
 import noop from "../../utils/noop"
+import { TouchableOpacity } from "react-native-gesture-handler"
+import { Green, TypographySizes, Spacing } from "../../theme"
 
 interface Props {
   onSearch?: (text: string) => void
   placeholder?: string
   iconName?: string
+  iconVariant?: IconProps["variant"]
   iconAction?: () => void
 }
 
@@ -19,6 +22,7 @@ const Seachbox: React.FC<Props> = ({
   onSearch = noop,
   placeholder,
   iconName,
+  iconVariant,
   iconAction = noop,
 }) => {
   const [search, setSearch] = useState("")
@@ -44,19 +48,40 @@ const Seachbox: React.FC<Props> = ({
 
   const _handleClearText = useCallback(() => setSearch(""), [setSearch])
 
+  const ClearIconButton = () => {
+    return (
+      <TouchableOpacity onPress={_handleClearText}>
+        <Icon name="clear" />
+      </TouchableOpacity>
+    )
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.underlay} />
-      <Searchbar
-        onChangeText={_handleSearchText}
-        value={search}
-        style={styles.search}
-        onIconPress={_handleClearText}
-        placeholder={placeholder}
-      />
+      <View style={styles.search}>
+        <TextInput
+          isRounded
+          onChangeText={_handleSearchText}
+          value={search}
+          placeholder={placeholder}
+          prefix={<Icon name="search" variant="material" />}
+          suffix={search ? <ClearIconButton /> : null}
+        />
+      </View>
 
       {!!iconName && (
-        <IconButton icon={iconName} color="green" onPress={iconAction} />
+        <View style={styles.actionWrapper}>
+          <TouchableOpacity onPress={iconAction}>
+            <View style={styles.actionContainer}>
+              <Icon
+                name={iconName}
+                variant={iconVariant}
+                color="white"
+                size={TypographySizes.lg}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   )
@@ -64,24 +89,22 @@ const Seachbox: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: Layout.spacing,
+    marginBottom: Spacing.lg,
     flexDirection: "row",
+    alignSelf: "center",
   },
   search: {
     flex: 1,
-    marginRight: Layout.spacing,
-    elevation: 0,
-    borderRadius: 999,
-    borderWidth: 0.5,
-    borderColor: "rgb(199, 199, 204)",
   },
-  underlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "white",
+  actionWrapper: {
+    alignSelf: "center",
+  },
+  actionContainer: {
+    backgroundColor: Green.green500,
+    alignSelf: "center",
+    borderRadius: 999,
+    padding: Spacing.md,
+    marginLeft: Spacing.lg,
   },
 })
 
