@@ -7,7 +7,9 @@ import {
   LayoutChangeEvent,
   StatusBar,
   BackHandler,
+  ViewStyle,
 } from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Portal } from "@gorhom/portal"
 import Animated, {
   useSharedValue,
@@ -17,8 +19,13 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated"
 
+import ModalConfirmation from "./modal_confirmation"
 import { PortalHosts } from "../../constants/portal_hosts"
 import { Spacing } from "../../theme"
+
+interface ModalComponents {
+  Confirmation: typeof ModalConfirmation
+}
 
 export interface Props {
   isOpen: boolean
@@ -36,12 +43,7 @@ const AnimationConfig = {
   easing: Easing.inOut(Easing.quad),
 }
 
-const AnimationImediateConfig = {
-  duration: 10,
-  easing: Easing.inOut(Easing.quad),
-}
-
-const Modal: React.FC<Props> = ({
+const Modal: React.FC<Props> & ModalComponents = ({
   isOpen,
   layer = 1,
   bottom,
@@ -56,8 +58,13 @@ const Modal: React.FC<Props> = ({
   const [isLocalOpen, setIsLocalOpen] = useState(false)
   const [isLayoutReady, setIsLayoutReady] = useState(false)
 
+  const { bottom: BottomPadding } = useSafeAreaInsets()
+
   const opacityV = useSharedValue(0)
 
+  const bottomContainerSafePadding: ViewStyle = {
+    paddingBottom: BottomPadding,
+  }
   /**
    * Animation styles
    */
@@ -243,7 +250,11 @@ const Modal: React.FC<Props> = ({
         </Animated.View>
 
         <Animated.View
-          style={[styles.menuBottomContainer, bottomContainerAnimStyles]}
+          style={[
+            styles.menuBottomContainer,
+            bottomContainerAnimStyles,
+            bottomContainerSafePadding,
+          ]}
           onLayout={_handleBottomLayout}
         >
           {/**
@@ -256,6 +267,8 @@ const Modal: React.FC<Props> = ({
     </Portal>
   )
 }
+
+Modal.Confirmation = ModalConfirmation
 
 const styles = StyleSheet.create({
   constainer: {
