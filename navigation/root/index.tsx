@@ -19,7 +19,7 @@ const RootTabNavigator = createBottomTabNavigator()
 const styles = StyleSheet.create({
   tab: {
     elevation: 0,
-    borderTopColor: Gray.gray300,
+    borderTopColor: Gray.gray200,
     borderTopWidth: Border.width,
   },
 })
