@@ -1,18 +1,69 @@
-import React from "react"
-import { StyleSheet, Text } from "react-native"
+import React, { useCallback, useRef } from "react"
+import { StyleSheet, View } from "react-native"
 import {
   createStackNavigator,
   StackNavigationOptions,
   HeaderTitle,
+  StackHeaderTitleProps,
 } from "@react-navigation/stack"
-import { useRoute } from "@react-navigation/native"
+import { useRoute, useNavigation } from "@react-navigation/native"
 
 import { NavScreens } from "../../constants/screens"
+import InventoryItemMoreModal, {
+  RefFunctions as ModalRef,
+} from "../../modal_components/inventory_item_list_more"
+import Icon from "../../components/icon"
+import { ProductsData } from "../../database_hooks"
+
 import InventoryItemListScreen from "../../screens/inventory_item_list"
 import InventoryItemViewScreen from "../../screens/inventory_item_view"
 import InventoryItemUpsertScreen from "../../screens/inventory_item_upsert"
+import { TouchableOpacity } from "react-native-gesture-handler"
 
 const StackNav = createStackNavigator()
+
+const ItemUpsertHeaderTitle: React.FC<StackHeaderTitleProps> = ({
+  tintColor,
+}) => {
+  const { params } = useRoute()
+  if (params) {
+    return <HeaderTitle style={{ color: tintColor }}>Edit Product</HeaderTitle>
+  }
+
+  return <HeaderTitle style={{ color: tintColor }}>New Product</HeaderTitle>
+}
+
+const ItemViewHeaderRight: React.FC<{
+  tintColor?: string | undefined
+}> = ({ tintColor }) => {
+  const { params } = useRoute()
+  const { navigate, goBack } = useNavigation()
+  const modalRef = useRef<ModalRef>(null)
+
+  const _handleOpenModal = useCallback(() => {
+    if (modalRef.current?.openModal) {
+      modalRef.current.openModal(params as ProductsData)
+    }
+  }, [])
+
+  if (!params) return null
+
+  return (
+    <>
+      <TouchableOpacity onPress={_handleOpenModal}>
+        <View style={styles.headerIcon}>
+          <Icon color={tintColor} name="more-vert" size={23} />
+        </View>
+      </TouchableOpacity>
+
+      <InventoryItemMoreModal
+        ref={modalRef}
+        navigateTo={navigate}
+        goBack={goBack}
+      />
+    </>
+  )
+}
 
 const ItemListOptions: StackNavigationOptions = {
   headerTitle: "Inventory",
@@ -20,20 +71,11 @@ const ItemListOptions: StackNavigationOptions = {
 
 const ItemViewOptions: StackNavigationOptions = {
   headerTitle: "Product",
+  headerRight: ItemViewHeaderRight,
 }
 
 const ItemUpsertOptions: StackNavigationOptions = {
-  headerTitle: ({ tintColor }) => {
-    const { params } = useRoute()
-
-    if (params) {
-      return (
-        <HeaderTitle style={{ color: tintColor }}>Edit Product</HeaderTitle>
-      )
-    }
-
-    return <HeaderTitle style={{ color: tintColor }}>New Product</HeaderTitle>
-  },
+  headerTitle: ItemUpsertHeaderTitle,
 }
 
 const InventoryNavigator = () => {
@@ -67,6 +109,12 @@ const InventoryNavigator = () => {
 const styles = StyleSheet.create({
   header: {
     elevation: 0,
+  },
+  headerIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    padding: 5,
   },
 })
 
