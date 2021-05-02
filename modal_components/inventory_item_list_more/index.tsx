@@ -105,7 +105,7 @@ const InventoryItemListMoreModal = forwardRef(
         top={
           <Modal.Confirmation
             title="Confirm Deletion"
-            description="Deleting a product is a permenant action and cannot be undone."
+            description="Deleting a product is a permanent action and cannot be undone."
             acceptTitle="Delete"
             acceptStyles={styles.deleteButton}
             onAccept={_handleDeleteConfirm}
