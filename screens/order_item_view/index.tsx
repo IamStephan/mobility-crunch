@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useState, useRef } from "react"
 import { FlatList, View, StyleSheet, LayoutChangeEvent } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 
@@ -13,11 +13,14 @@ import OrderItemViewInfoSection from "../../sections/order_item_view_info"
 import OrderItemViewActionsSection from "../../sections/order_item_view_actions"
 import OrderItemViewProductsHeader from "../../sections/order_item_view_products_header"
 
-import { Spacing } from "../../theme"
+import { Green, Red, Spacing } from "../../theme"
 import ListItem, { ListItemLoader } from "../../components/list_item"
 import { NavScreens } from "../../constants/screens"
 import { ZAR } from "../../utils/formatNumber"
-import { Primary } from "../../components/button"
+import { Primary, Basic } from "../../components/button"
+import OrderViewRemoveOrderProducts, {
+  RefFunctions as RemoveItemsModal,
+} from "../../modal_components/order_view_remove_order_products"
 
 interface Props extends StackScreenProps<any> {}
 
@@ -35,6 +38,10 @@ const MaxRenderBatch = 5
 
 const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
   const [itemProbingHeight, setItemProbingHeight] = useState(1)
+  const [selectionActivated, setSelectionAvtivated] = useState(false)
+  const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
+
+  const removeItemsModal = useRef<RemoveItemsModal>(null)
 
   const params = route.params as OrdersData
 
@@ -65,6 +72,55 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
     })
   }, [metaOrderProducts?.productIDs])
 
+  const _handleSelctionActivation = useCallback(
+    (orderID: string) => {
+      if (!selectionActivated) {
+        setSelectionAvtivated(true)
+        _handleSelectionToggle(orderID)
+      }
+    },
+    [selectionActivated]
+  )
+
+  const _handleSelectionToggle = useCallback(
+    (orderItemID: string) => {
+      if (selected.has(orderItemID)) {
+        setSelected((prev) => {
+          const newSelected = new Map(prev)
+          newSelected.delete(orderItemID)
+
+          if (!newSelected.size) {
+            setSelectionAvtivated(false)
+          }
+
+          return newSelected
+        })
+      } else {
+        setSelected((prev) => new Map(prev).set(orderItemID, true))
+      }
+    },
+    [selected]
+  )
+
+  const _handleSelectionClear = useCallback(() => {
+    setSelected(new Map())
+    setSelectionAvtivated(false)
+  }, [])
+
+  const _handleItemDeleteRequest = useCallback((orderProductID: string) => {
+    console.log(orderProductID)
+    removeItemsModal.current?.openModal([orderProductID])
+  }, [])
+
+  const _handleItemSelectionDeleteRequest = useCallback(() => {
+    removeItemsModal.current?.openModal([...selected.keys()])
+  }, [selected])
+
+  const _handleModalClose = useCallback(() => {
+    setSelectionAvtivated(false)
+    setSelected(new Map())
+  }, [])
+
   const _RenderHeader: React.FC = () => {
     return (
       <>
@@ -94,42 +150,77 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
   const _RenderItem: React.FC<{
     item: OrderProductsData
     index: number
-  }> = useCallback(({ item, index }) => {
-    const _handleSettingProbingHeight = (e: LayoutChangeEvent) => {
-      const {
-        nativeEvent: {
-          layout: { height },
-        },
-      } = e
+  }> = useCallback(
+    ({ item, index }) => {
+      const _handleSettingProbingHeight = (e: LayoutChangeEvent) => {
+        const {
+          nativeEvent: {
+            layout: { height },
+          },
+        } = e
 
-      if (index === 0) {
-        setItemProbingHeight(height)
+        if (index === 0) {
+          setItemProbingHeight(height)
+        }
       }
-    }
 
-    return (
-      <View style={styles.container} onLayout={_handleSettingProbingHeight}>
-        <ListItem
-          key={item.id}
-          title={item.product_name}
-          captions={[ZAR(Number(item.price)), `Quantity: ${item.quantity}`]}
-          onPress={_handleItemNavigation}
-          iconName="delete"
-          iconVariant="material"
-          onLongPress={() => console.log("hi")}
-          onIconPress={() => {}}
-        />
-      </View>
-    )
-  }, [])
+      return (
+        <View style={styles.container} onLayout={_handleSettingProbingHeight}>
+          <ListItem
+            key={item.id}
+            title={item.product_name}
+            captions={[ZAR(Number(item.price)), `Quantity: ${item.quantity}`]}
+            onPress={
+              selectionActivated
+                ? () => _handleSelectionToggle(item.id)
+                : _handleItemNavigation
+            }
+            iconName={
+              selectionActivated
+                ? selected.has(item.id)
+                  ? "check-circle"
+                  : "radio-button-unchecked"
+                : "delete"
+            }
+            iconVariant="material"
+            iconColor={
+              selectionActivated
+                ? selected.has(item.id)
+                  ? Green.green600
+                  : undefined
+                : undefined
+            }
+            onLongPress={() => _handleSelctionActivation(item.id)}
+            onIconPress={
+              selectionActivated
+                ? () => _handleSelectionToggle(item.id)
+                : () => _handleItemDeleteRequest(item.id)
+            }
+          />
+        </View>
+      )
+    },
+    [selectionActivated, selected, _handleSelctionActivation]
+  )
 
   const _RenderFooter: React.FC = useCallback(() => {
     return (
       <View style={styles.footer}>
-        <Primary title="Add Products" action={_handleAddItemsNavigation} />
+        {selectionActivated ? (
+          <>
+            <Basic title="Clear selection" action={_handleSelectionClear} />
+            <Primary
+              title="Remove Selection"
+              action={_handleItemSelectionDeleteRequest}
+              style={styles.footerRemoveButton}
+            />
+          </>
+        ) : (
+          <Primary title="Add Products" action={_handleAddItemsNavigation} />
+        )}
       </View>
     )
-  }, [metaOrderProducts?.productIDs])
+  }, [metaOrderProducts?.productIDs, selectionActivated, selected])
 
   /**
    * Render a loader placeholder or render an error
@@ -157,16 +248,22 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
   }, [stateOrderProducts.loading])
 
   return (
-    <FlatList
-      ListHeaderComponent={_RenderHeader}
-      renderItem={_RenderItem}
-      ListFooterComponent={_RenderFooter}
-      ListEmptyComponent={_RenderEmptyList}
-      data={dataOrderProducts}
-      windowSize={WindowSize}
-      getItemLayout={_getItemLayoutHeight}
-      maxToRenderPerBatch={MaxRenderBatch}
-    />
+    <>
+      <FlatList
+        ListHeaderComponent={_RenderHeader}
+        renderItem={_RenderItem}
+        ListFooterComponent={_RenderFooter}
+        ListEmptyComponent={_RenderEmptyList}
+        data={dataOrderProducts}
+        windowSize={WindowSize}
+        getItemLayout={_getItemLayoutHeight}
+        maxToRenderPerBatch={MaxRenderBatch}
+      />
+      <OrderViewRemoveOrderProducts
+        onClose={_handleModalClose}
+        ref={removeItemsModal}
+      />
+    </>
   )
 }
 
@@ -178,6 +275,11 @@ const styles = StyleSheet.create({
   footer: {
     paddingHorizontal: Spacing.xl,
     paddingVertical: Spacing.lg,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  footerRemoveButton: {
+    backgroundColor: Red.red600,
   },
 })
 

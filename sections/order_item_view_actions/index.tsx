@@ -42,16 +42,8 @@ const OrderItemViewActionSection: React.FC<Props> = ({
         indentChildrenWithIcon={false}
       >
         <View style={styles.primaryDocs}>
-          <Basic
-            title="Generate as"
-            style={styles.buttonSpacing}
-            action={_handleViewAsPress}
-          />
-          <Basic
-            title="Copy tax"
-            style={styles.buttonSpacing}
-            action={_handleViewAsCopyTaxPress}
-          />
+          <Basic title="Generate as" action={_handleViewAsPress} />
+          <Basic title="Copy tax" action={_handleViewAsCopyTaxPress} />
         </View>
       </Section>
 
@@ -67,11 +59,8 @@ const OrderItemViewActionSection: React.FC<Props> = ({
 const styles = StyleSheet.create({
   primaryDocs: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     marginBottom: Spacing.lg,
-  },
-  buttonSpacing: {
-    marginHorizontal: Spacing.md,
   },
 })
 
