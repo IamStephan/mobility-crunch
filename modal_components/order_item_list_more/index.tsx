@@ -89,7 +89,7 @@ const OrderItemListMoreModal = forwardRef(
         bottom={
           <Dropdown title="Order options">
             <Dropdown.Option
-              title="Edit Order"
+              title="Edit Order Details"
               onPress={_handeEditOrder}
               iconPrefixName="edit"
               iconPrefixColor={Gray.gray400}
