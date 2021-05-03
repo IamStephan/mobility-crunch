@@ -12,7 +12,9 @@ interface Props {
   captions: Array<string>
   iconName?: string
   iconVariant?: IconProps["variant"]
+  iconColor?: string
   onPress?: () => void
+  onLongPress?: () => void
   onIconPress?: () => void
 }
 
@@ -21,13 +23,15 @@ const ListItem: React.FC<Props> = ({
   captions,
   iconName,
   iconVariant,
+  iconColor,
   onPress,
+  onLongPress,
   onIconPress,
 }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textWrapper}>
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
           <View style={styles.textContainer}>
             <Title numberOfLines={1}>{title}</Title>
             <Paragraph>{captions.join("\n")}</Paragraph>
@@ -36,7 +40,7 @@ const ListItem: React.FC<Props> = ({
       </View>
       {!!iconName && (
         <TouchableOpacity style={styles.iconContainer} onPress={onIconPress}>
-          <Icon name={iconName} variant={iconVariant} />
+          <Icon name={iconName} variant={iconVariant} color={iconColor} />
         </TouchableOpacity>
       )}
     </View>
