@@ -7,12 +7,14 @@ import Icon, { Props as IconProps } from "../../components/icon"
 import noop from "../../utils/noop"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { Green, TypographySizes, Spacing } from "../../theme"
+import { ActivityIndicator } from "react-native-paper"
 
 interface Props {
   onSearch?: (text: string) => void
   placeholder?: string
   iconName?: string
   iconVariant?: IconProps["variant"]
+  iconLoading?: boolean
   iconAction?: () => void
 }
 
@@ -23,6 +25,7 @@ const Seachbox: React.FC<Props> = ({
   placeholder,
   iconName,
   iconVariant,
+  iconLoading,
   iconAction = noop,
 }) => {
   const [search, setSearch] = useState("")
@@ -71,14 +74,18 @@ const Seachbox: React.FC<Props> = ({
 
       {!!iconName && (
         <View style={styles.actionWrapper}>
-          <TouchableOpacity onPress={iconAction}>
+          <TouchableOpacity onPress={iconAction} disabled={iconLoading}>
             <View style={styles.actionContainer}>
-              <Icon
-                name={iconName}
-                variant={iconVariant}
-                color="white"
-                size={TypographySizes.lg}
-              />
+              {iconLoading ? (
+                <ActivityIndicator size={TypographySizes.lg} color="white" />
+              ) : (
+                <Icon
+                  name={iconName}
+                  variant={iconVariant}
+                  color="white"
+                  size={TypographySizes.lg}
+                />
+              )}
             </View>
           </TouchableOpacity>
         </View>
