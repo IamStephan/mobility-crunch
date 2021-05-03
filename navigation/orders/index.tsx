@@ -5,6 +5,7 @@ import {
   StackNavigationOptions,
   HeaderTitle,
   StackHeaderTitleProps,
+  TransitionPresets,
 } from "@react-navigation/stack"
 import { useRoute, useNavigation } from "@react-navigation/native"
 
@@ -25,6 +26,9 @@ import OrderItemEditProductScreen from "../../screens/order_item_edit_product"
 import Dummy from "../../components/dummy_view"
 
 const StackNav = createStackNavigator()
+
+const NormalScreenTransition = TransitionPresets.SlideFromRightIOS
+const FormScreenTransition = TransitionPresets.RevealFromBottomAndroid
 
 const ItemUpsertHeaderTitle: React.FC<StackHeaderTitleProps> = ({
   tintColor,
@@ -71,23 +75,28 @@ const ItemViewHeaderRight: React.FC<{
 
 const ItemListOptions: StackNavigationOptions = {
   headerTitle: "Order",
+  ...NormalScreenTransition,
 }
 
 const OrderItemUpsertOptions: StackNavigationOptions = {
   headerTitle: ItemUpsertHeaderTitle,
+  ...FormScreenTransition,
 }
 
 const OrderItemViewOptions: StackNavigationOptions = {
   headerTitle: "Order overview",
   headerRight: ItemViewHeaderRight,
+  ...NormalScreenTransition,
 }
 
 const OrderItemAddProductListOptions: StackNavigationOptions = {
   headerTitle: "Add products",
+  ...FormScreenTransition,
 }
 
 const OrderItemEditProductOptions: StackNavigationOptions = {
   headerTitle: "Edit order product",
+  ...FormScreenTransition,
 }
 
 const OrdersNavigator = () => {

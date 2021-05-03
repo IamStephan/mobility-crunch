@@ -3,17 +3,20 @@ import { StyleSheet, View, TouchableOpacity } from "react-native"
 import {
   createStackNavigator,
   StackNavigationOptions,
+  TransitionPresets,
 } from "@react-navigation/stack"
 import { useNavigation, useRoute } from "@react-navigation/native"
 
 import { NavScreens } from "../../constants/screens"
 import Icon from "../../components/icon"
-import Dummy from "../../components/dummy_view"
 
 import SettingsViewScreen from "../../screens/settings_view"
 import SettingsEditScreen from "../../screens/settings_edit"
 
 const StackNav = createStackNavigator()
+
+const NormalScreenTransition = TransitionPresets.SlideFromRightIOS
+const FormScreenTransition = TransitionPresets.RevealFromBottomAndroid
 
 const ItemViewHeaderRight: React.FC<{
   tintColor?: string | undefined
@@ -39,10 +42,12 @@ const ItemViewHeaderRight: React.FC<{
 const SettingsViewOption: StackNavigationOptions = {
   headerTitle: "Settings",
   headerRight: ItemViewHeaderRight,
+  ...NormalScreenTransition,
 }
 
 const SettingsEditOption: StackNavigationOptions = {
   headerTitle: "Edit Settings",
+  ...FormScreenTransition,
 }
 
 const SettingsNavigator = () => {

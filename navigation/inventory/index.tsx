@@ -5,6 +5,7 @@ import {
   StackNavigationOptions,
   HeaderTitle,
   StackHeaderTitleProps,
+  TransitionPresets,
 } from "@react-navigation/stack"
 import { useRoute, useNavigation } from "@react-navigation/native"
 
@@ -20,6 +21,9 @@ import InventoryItemViewScreen from "../../screens/inventory_item_view"
 import InventoryItemUpsertScreen from "../../screens/inventory_item_upsert"
 
 const StackNav = createStackNavigator()
+
+const NormalScreenTransition = TransitionPresets.SlideFromRightIOS
+const FormScreenTransition = TransitionPresets.RevealFromBottomAndroid
 
 const ItemUpsertHeaderTitle: React.FC<StackHeaderTitleProps> = ({
   tintColor,
@@ -71,10 +75,12 @@ const ItemListOptions: StackNavigationOptions = {
 const ItemViewOptions: StackNavigationOptions = {
   headerTitle: "Product",
   headerRight: ItemViewHeaderRight,
+  ...NormalScreenTransition,
 }
 
 const ItemUpsertOptions: StackNavigationOptions = {
   headerTitle: ItemUpsertHeaderTitle,
+  ...FormScreenTransition,
 }
 
 const InventoryNavigator = () => {
