@@ -7,6 +7,7 @@ import {
   TextInputFocusEventData,
   ViewStyle,
   KeyboardTypeOptions,
+  TextInputProps,
 } from "react-native"
 
 import { Border, Spacing, TypographyFamily, TypographySizes } from "../../theme"
@@ -18,6 +19,7 @@ interface Props {
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void
   isRounded?: boolean
   keyboardType?: KeyboardTypeOptions
+  autoCapitalize?: TextInputProps["autoCapitalize"]
   prefix?: React.ReactNode
   suffix?: React.ReactNode
 }
@@ -29,6 +31,7 @@ const TextInput: React.FC<Props> = ({
   onBlur,
   isRounded,
   keyboardType = "default",
+  autoCapitalize = "sentences",
   prefix,
   suffix,
 }) => {
@@ -50,6 +53,7 @@ const TextInput: React.FC<Props> = ({
         value={value}
         keyboardType={keyboardType}
         placeholder={placeholder}
+        autoCapitalize={autoCapitalize}
       />
       {!!suffix && (
         <View style={[styles.iconContainer, styles.iconContainerSuffix]}>

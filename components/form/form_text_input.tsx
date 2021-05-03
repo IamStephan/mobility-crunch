@@ -1,6 +1,11 @@
 import React from "react"
 import { Control, Controller } from "react-hook-form"
-import { View, StyleSheet, KeyboardTypeOptions } from "react-native"
+import {
+  View,
+  StyleSheet,
+  KeyboardTypeOptions,
+  TextInputProps,
+} from "react-native"
 
 import { Spacing, Red, Border } from "../../theme"
 import TextInput from "../text_input"
@@ -11,6 +16,7 @@ interface Props {
   name: string
   control: Control
   keyboardType?: KeyboardTypeOptions
+  autoCapitalize?: TextInputProps["autoCapitalize"]
   placeholder?: string
   isRequired?: boolean
   suffix?: React.ReactNode
@@ -22,6 +28,7 @@ const FormTextInput: React.FC<Props> = ({
   control,
   name,
   keyboardType,
+  autoCapitalize = "sentences",
   placeholder,
   isRequired,
   suffix,
@@ -48,6 +55,7 @@ const FormTextInput: React.FC<Props> = ({
             prefix={prefix}
             suffix={suffix}
             keyboardType={keyboardType}
+            autoCapitalize={autoCapitalize}
           />
           {!!error?.message && (
             <Label style={styles.errorLabel}>{error.message}</Label>
