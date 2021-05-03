@@ -140,6 +140,7 @@ const OrderItemUpsertFormSection: React.FC<Props> = ({
           name="primaryEmail"
           label="Primary email"
           keyboardType="email-address"
+          autoCapitalize="none"
           isRequired
         />
         <Form.Input
@@ -156,6 +157,7 @@ const OrderItemUpsertFormSection: React.FC<Props> = ({
           control={control as any}
           name="secondaryEmaill"
           keyboardType="email-address"
+          autoCapitalize="none"
           label="Secondary email"
         />
         <Form.Input
