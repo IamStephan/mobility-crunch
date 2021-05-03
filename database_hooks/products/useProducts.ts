@@ -7,29 +7,55 @@ import { useFirebase, State } from "../../stores/useFirebase"
 
 const selector = (state: State) => ({ firebase: state.firebase })
 
+interface Options {
+  /**
+   * Exclude ids on the initial data
+   * set. Does not afect subsequent
+   * search filters
+   */
+  excludeIDs?: Array<string>
+}
+
 export const useProductsData = (
-  searchTerm: string
+  searchTerm: string,
+  options?: Options
 ): DatabaseReturnType<Array<ProductsData>> => {
   const [data, setData] = useState<Array<ProductsData>>([])
   const { firebase } = useFirebase(selector)
 
   // Temp Limit
-  const query = firebase.firestore().collection("products").limit(25)
+  const query = firebase.firestore().collection("products")
   const [items, loading, error] = useCollection<Omit<ProductsData, "id">>(query)
 
   useEffect(() => {
     if (items) {
       let dataTempArr: Array<ProductsData> = [] as any
-      items.forEach((item) => {
-        dataTempArr.push({
-          id: item.id,
-          ...item.data(),
-        })
-      })
+
+      switch (true) {
+        case !!options?.excludeIDs && Array.isArray(options.excludeIDs): {
+          items.forEach((item) => {
+            if (!options?.excludeIDs?.includes(item.id)) {
+              dataTempArr.push({
+                id: item.id,
+                ...item.data(),
+              })
+            }
+          })
+          break
+        }
+        default: {
+          items.forEach((item) => {
+            dataTempArr.push({
+              id: item.id,
+              ...item.data(),
+            })
+          })
+        }
+      }
 
       setData(dataTempArr)
     }
-  }, [items])
+  }, [items, options?.excludeIDs])
 
   const _filterData = useCallback(() => {
     if (data) {

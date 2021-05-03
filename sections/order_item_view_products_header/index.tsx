@@ -1,10 +1,9 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { View, StyleSheet } from "react-native"
 
 import { Spacing, Green, TypographySizes, Border, Gray } from "../../theme"
 import { Heading } from "../../components/text"
 import Icon from "../../components/icon"
-import { Primary } from "../../components/button"
 
 const Section: React.FC = () => {
   return (
@@ -22,17 +21,6 @@ const Section: React.FC = () => {
           <Heading>Products</Heading>
           <View style={styles.divider} />
         </View>
-      </View>
-
-      <View
-        style={
-          {
-            // flexDirection: "row",
-            // justifyContent: "flex-end",
-          }
-        }
-      >
-        <Primary title="Add Product" />
       </View>
     </View>
   )

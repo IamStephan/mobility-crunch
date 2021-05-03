@@ -17,6 +17,7 @@ import { Spacing } from "../../theme"
 import ListItem, { ListItemLoader } from "../../components/list_item"
 import { NavScreens } from "../../constants/screens"
 import { ZAR } from "../../utils/formatNumber"
+import { Primary } from "../../components/button"
 
 interface Props extends StackScreenProps<any> {}
 
@@ -40,6 +41,7 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
   const { data: dataOrder, state: stateOrder } = useOrderData(params.id)
   const {
     data: dataOrderProducts,
+    meta: metaOrderProducts,
     state: stateOrderProducts,
   } = useOrderProductsData(params.id)
 
@@ -52,11 +54,18 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
     [itemProbingHeight]
   )
 
-  const _handleItemNavigation = useCallback((product) => {
-    navigation.navigate(NavScreens.inventoryItemView, product)
+  const _handleItemNavigation = useCallback(() => {
+    navigation.navigate(NavScreens.orderItemEditProduct)
   }, [])
 
-  const _RenderHeader = () => {
+  const _handleAddItemsNavigation = useCallback(() => {
+    navigation.navigate(NavScreens.orderItemAddProductList, {
+      excludeIDs: metaOrderProducts?.productIDs,
+      orderID: params.id,
+    })
+  }, [metaOrderProducts?.productIDs])
+
+  const _RenderHeader: React.FC = () => {
     return (
       <>
         <OrderItemViewInfoSection
@@ -103,15 +112,24 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
         <ListItem
           key={item.id}
           title={item.product_name}
-          captions={[ZAR(Number(item.price)), `Quantiy: ${item.quantity}`]}
-          onPress={() => _handleItemNavigation(item)}
+          captions={[ZAR(Number(item.price)), `Quantity: ${item.quantity}`]}
+          onPress={_handleItemNavigation}
           iconName="delete"
           iconVariant="material"
+          onLongPress={() => console.log("hi")}
           onIconPress={() => {}}
         />
       </View>
     )
   }, [])
+
+  const _RenderFooter: React.FC = useCallback(() => {
+    return (
+      <View style={styles.footer}>
+        <Primary title="Add Products" action={_handleAddItemsNavigation} />
+      </View>
+    )
+  }, [metaOrderProducts?.productIDs])
 
   /**
    * Render a loader placeholder or render an error
@@ -135,7 +153,6 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
       )
     }
 
-    // TODO: create empty list not found comp
     return null
   }, [stateOrderProducts.loading])
 
@@ -143,6 +160,7 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
     <FlatList
       ListHeaderComponent={_RenderHeader}
       renderItem={_RenderItem}
+      ListFooterComponent={_RenderFooter}
       ListEmptyComponent={_RenderEmptyList}
       data={dataOrderProducts}
       windowSize={WindowSize}
@@ -155,6 +173,11 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Spacing.xl,
+  },
+
+  footer: {
+    paddingHorizontal: Spacing.xl,
+    paddingVertical: Spacing.lg,
   },
 })
 

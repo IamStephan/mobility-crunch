@@ -11,6 +11,7 @@ import { useRoute } from "@react-navigation/native"
 import { NavScreens } from "../../constants/screens"
 import OrderItemListScreen from "../../screens/order_item_list"
 import OrderItemViewScreen from "../../screens/order_item_view"
+import OrderItemAddProductListScreen from "../../screens/order_item_add_product_list"
 import OrderItemUpsertScreen from "../../screens/order_item_upsert"
 
 // Dummy
@@ -39,6 +40,10 @@ const OrderItemUpsertOptions: StackNavigationOptions = {
 
 const OrderItemViewOptions: StackNavigationOptions = {
   headerTitle: "Order overview",
+}
+
+const OrderItemAddProductListOptions: StackNavigationOptions = {
+  headerTitle: "Add products",
 }
 
 const OrdersNavigator = () => {
@@ -71,8 +76,9 @@ const OrdersNavigator = () => {
       />
       <StackNav.Screen name={NavScreens.orderItemViewAs} component={Dummy} />
       <StackNav.Screen
-        name={NavScreens.orderItemEditProductList}
-        component={Dummy}
+        name={NavScreens.orderItemAddProductList}
+        options={OrderItemAddProductListOptions}
+        component={OrderItemAddProductListScreen}
       />
       <StackNav.Screen
         name={NavScreens.orderItemEditProduct}

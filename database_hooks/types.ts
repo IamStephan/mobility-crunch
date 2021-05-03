@@ -1,6 +1,6 @@
 import firebase from "firebase"
 
-export interface DatabaseReturnType<D> {
+export interface DatabaseReturnType<D, M = null> {
   /**
    * @description internal state of the hook
    */
@@ -19,4 +19,9 @@ export interface DatabaseReturnType<D> {
    * @description Data from the database
    */
   data?: D
+
+  /**
+   * @description Used for additional information
+   */
+  meta?: M
 }
