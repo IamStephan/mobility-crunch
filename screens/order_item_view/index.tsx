@@ -61,8 +61,8 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
     [itemProbingHeight]
   )
 
-  const _handleItemNavigation = useCallback(() => {
-    navigation.navigate(NavScreens.orderItemEditProduct)
+  const _handleItemNavigation = useCallback((item: OrderProductsData) => {
+    navigation.navigate(NavScreens.orderItemEditProduct, item)
   }, [])
 
   const _handleAddItemsNavigation = useCallback(() => {
@@ -173,7 +173,7 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
             onPress={
               selectionActivated
                 ? () => _handleSelectionToggle(item.id)
-                : _handleItemNavigation
+                : () => _handleItemNavigation(item)
             }
             iconName={
               selectionActivated

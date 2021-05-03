@@ -30,6 +30,7 @@ export { OrdersData } from "./orders/types"
 /**
  * ORDER PRODUCTS
  */
+export { useOrderProductMutations } from "./order_products/useOrderProduct"
 export {
   useOrderProductsData,
   useOrderProductsMutations,
