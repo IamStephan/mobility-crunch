@@ -13,7 +13,7 @@ export const NavScreens = {
   orderItemUpsert: "OrderItemUpsert",
   orderItemView: "OrderItemView",
   orderItemViewAs: "OrderItemViewAs",
-  orderItemEditProductList: "OrderItemEditProductList",
+  orderItemAddProductList: "OrderItemAddProductList",
   orderItemEditProduct: "OrderItemEditProduct",
 
   /**
