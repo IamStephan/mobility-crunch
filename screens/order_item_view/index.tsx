@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useRef } from "react"
 import { FlatList, View, StyleSheet, LayoutChangeEvent } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
+import { useDeepCompareCallback } from "use-deep-compare"
 
 import {
   useOrderData,
@@ -121,7 +122,7 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
     setSelected(new Map())
   }, [])
 
-  const _RenderHeader: React.FC = () => {
+  const _RenderHeader: React.FC = useDeepCompareCallback(() => {
     return (
       <>
         <OrderItemViewInfoSection
@@ -147,7 +148,7 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
         <OrderItemViewProductsHeader />
       </>
     )
-  }
+  }, [stateOrder, dataOrder, dataOrderProducts, stateOrderProducts])
 
   const _RenderItem: React.FC<{
     item: OrderProductsData

@@ -5,6 +5,7 @@ export interface DataPayload {
    * to use the actual document number
    */
   order_id: string
+  copyTaxNum?: string | undefined
   client: {
     email: string
     client_name: String
