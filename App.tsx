@@ -14,6 +14,7 @@ import {
   Roboto_700Bold,
   Roboto_900Black,
 } from "@expo-google-fonts/roboto"
+import FlashMessage from "react-native-flash-message"
 
 import useCachedResources from "./hooks/useCachedResources"
 import useColorScheme from "./hooks/useColorScheme"
@@ -70,6 +71,7 @@ export default function App() {
         </ThemeProvider>
 
         <StatusBar />
+        <FlashMessage position="top" />
       </SafeAreaProvider>
     )
   }
