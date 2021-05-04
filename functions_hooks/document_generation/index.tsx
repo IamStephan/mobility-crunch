@@ -9,7 +9,7 @@ export const useDocumentGeneration = () => {
   const { firebase } = useFirebase(selector)
 
   const _generateDocument = async (
-    type: "quote" | "forma" | "invoice",
+    type: "quote" | "forma" | "invoice" | "copyTax",
     data: DataPayload
   ) => {
     let downloadUrl = ""
@@ -37,6 +37,15 @@ export const useDocumentGeneration = () => {
         downloadUrl = await firebase
           .storage()
           .ref(`invoices/invoice-${data.order_id}.pdf`)
+          .getDownloadURL()
+        break
+      }
+
+      case "copyTax": {
+        await firebase.functions().httpsCallable("generateCopyTax")(data)
+        downloadUrl = await firebase
+          .storage()
+          .ref(`copytax/copytax-${data.order_id}.pdf`)
           .getDownloadURL()
         break
       }
