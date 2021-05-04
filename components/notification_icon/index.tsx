@@ -6,7 +6,7 @@ import Icon, { Props as IconProps } from "../icon"
 
 interface Props {
   name: string
-  variant: IconProps["variant"]
+  variant?: IconProps["variant"]
 }
 
 const NotificationIcon: React.FC<Props> = ({ name, variant }) => {
