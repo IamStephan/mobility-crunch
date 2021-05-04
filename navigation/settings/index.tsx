@@ -1,14 +1,15 @@
 import React, { useCallback } from "react"
-import { StyleSheet, View, TouchableOpacity } from "react-native"
+import { StyleSheet } from "react-native"
 import {
   createStackNavigator,
   StackNavigationOptions,
   TransitionPresets,
 } from "@react-navigation/stack"
 import { useNavigation, useRoute } from "@react-navigation/native"
+import { Item } from "react-navigation-header-buttons"
 
 import { NavScreens } from "../../constants/screens"
-import Icon from "../../components/icon"
+import HeaderButton from "../../components/header_button"
 
 import SettingsViewScreen from "../../screens/settings_view"
 import SettingsEditScreen from "../../screens/settings_edit"
@@ -31,11 +32,14 @@ const ItemViewHeaderRight: React.FC<{
   if (!params) return null
 
   return (
-    <TouchableOpacity onPress={_handleEditSettings}>
-      <View style={styles.headerIcon}>
-        <Icon color={tintColor} name="edit" size={23} />
-      </View>
-    </TouchableOpacity>
+    <HeaderButton>
+      <Item
+        title="Edit"
+        iconName="edit"
+        color={tintColor}
+        onPress={_handleEditSettings}
+      />
+    </HeaderButton>
   )
 }
 
@@ -76,13 +80,6 @@ const SettingsNavigator = () => {
 const styles = StyleSheet.create({
   header: {
     elevation: 0,
-  },
-  headerIcon: {
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    padding: 5,
-    marginRight: 5,
   },
 })
 

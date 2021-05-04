@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react"
-import { StyleSheet, View, TouchableOpacity } from "react-native"
+import { StyleSheet } from "react-native"
 import {
   createStackNavigator,
   StackNavigationOptions,
@@ -8,13 +8,14 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack"
 import { useRoute, useNavigation } from "@react-navigation/native"
+import { Item } from "react-navigation-header-buttons"
 
 import { NavScreens } from "../../constants/screens"
 import InventoryItemMoreModal, {
   RefFunctions as ModalRef,
 } from "../../modal_components/inventory_item_list_more"
-import Icon from "../../components/icon"
 import { ProductsData } from "../../database_hooks"
+import HeaderButton from "../../components/header_button"
 
 import InventoryItemListScreen from "../../screens/inventory_item_list"
 import InventoryItemViewScreen from "../../screens/inventory_item_view"
@@ -53,11 +54,14 @@ const ItemViewHeaderRight: React.FC<{
 
   return (
     <>
-      <TouchableOpacity onPress={_handleOpenModal}>
-        <View style={styles.headerIcon}>
-          <Icon color={tintColor} name="more-vert" size={23} />
-        </View>
-      </TouchableOpacity>
+      <HeaderButton>
+        <Item
+          title="Options"
+          iconName="more-vert"
+          onPress={_handleOpenModal}
+          color={tintColor}
+        />
+      </HeaderButton>
 
       <InventoryItemMoreModal
         ref={modalRef}
@@ -114,12 +118,6 @@ const InventoryNavigator = () => {
 const styles = StyleSheet.create({
   header: {
     elevation: 0,
-  },
-  headerIcon: {
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    padding: 5,
   },
 })
 

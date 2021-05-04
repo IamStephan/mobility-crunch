@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from "react"
-import { StyleSheet, View, TouchableOpacity } from "react-native"
+import { StyleSheet } from "react-native"
 import {
   createStackNavigator,
   StackNavigationOptions,
@@ -8,13 +8,14 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack"
 import { useRoute, useNavigation } from "@react-navigation/native"
+import { Item } from "react-navigation-header-buttons"
 
 import { NavScreens } from "../../constants/screens"
 import OrderItemMoreModal, {
   RefFunctions as ModalRef,
 } from "../../modal_components/order_item_list_more"
-import Icon from "../../components/icon"
 import { OrdersData } from "../../database_hooks"
+import HeaderButton from "../../components/header_button"
 
 import OrderItemListScreen from "../../screens/order_item_list"
 import OrderItemViewScreen from "../../screens/order_item_view"
@@ -56,11 +57,14 @@ const ItemViewHeaderRight: React.FC<{
 
   return (
     <>
-      <TouchableOpacity onPress={_handleOpenModal}>
-        <View style={styles.headerIcon}>
-          <Icon color={tintColor} name="more-vert" size={23} />
-        </View>
-      </TouchableOpacity>
+      <HeaderButton>
+        <Item
+          title="Options"
+          iconName="more-vert"
+          color={tintColor}
+          onPress={_handleOpenModal}
+        />
+      </HeaderButton>
 
       <OrderItemMoreModal
         ref={modalRef}
@@ -152,12 +156,6 @@ const OrdersNavigator = () => {
 const styles = StyleSheet.create({
   header: {
     elevation: 0,
-  },
-  headerIcon: {
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    padding: 5,
   },
 })
 
