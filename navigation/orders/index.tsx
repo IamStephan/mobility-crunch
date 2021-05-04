@@ -21,9 +21,7 @@ import OrderItemViewScreen from "../../screens/order_item_view"
 import OrderItemAddProductListScreen from "../../screens/order_item_add_product_list"
 import OrderItemUpsertScreen from "../../screens/order_item_upsert"
 import OrderItemEditProductScreen from "../../screens/order_item_edit_product"
-
-// Dummy
-import Dummy from "../../components/dummy_view"
+import OrderViewAsScreen from "../../screens/order_item_view_as"
 
 const StackNav = createStackNavigator()
 
@@ -89,6 +87,11 @@ const OrderItemViewOptions: StackNavigationOptions = {
   ...NormalScreenTransition,
 }
 
+const OrderItemViewAsOptions: StackNavigationOptions = {
+  headerTitle: "Order document",
+  ...NormalScreenTransition,
+}
+
 const OrderItemAddProductListOptions: StackNavigationOptions = {
   headerTitle: "Add products",
   ...FormScreenTransition,
@@ -127,7 +130,11 @@ const OrdersNavigator = () => {
         options={OrderItemViewOptions}
         component={OrderItemViewScreen}
       />
-      <StackNav.Screen name={NavScreens.orderItemViewAs} component={Dummy} />
+      <StackNav.Screen
+        name={NavScreens.orderItemViewAs}
+        options={OrderItemViewAsOptions}
+        component={OrderViewAsScreen}
+      />
       <StackNav.Screen
         name={NavScreens.orderItemAddProductList}
         options={OrderItemAddProductListOptions}

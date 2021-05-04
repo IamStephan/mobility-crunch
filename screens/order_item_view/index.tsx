@@ -18,6 +18,7 @@ import ListItem, { ListItemLoader } from "../../components/list_item"
 import { NavScreens } from "../../constants/screens"
 import { ZAR } from "../../utils/formatNumber"
 import { Primary, Basic } from "../../components/button"
+
 import OrderViewRemoveOrderProducts, {
   RefFunctions as RemoveItemsModal,
 } from "../../modal_components/order_view_remove_order_products"
@@ -37,13 +38,12 @@ const WindowSize = 5
 const MaxRenderBatch = 5
 
 const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
+  const params = route.params as OrdersData
+
   const [itemProbingHeight, setItemProbingHeight] = useState(1)
   const [selectionActivated, setSelectionAvtivated] = useState(false)
   const [selected, setSelected] = useState<Map<string, boolean>>(new Map())
-
   const removeItemsModal = useRef<RemoveItemsModal>(null)
-
-  const params = route.params as OrdersData
 
   const { data: dataOrder, state: stateOrder } = useOrderData(params.id)
   const {
@@ -139,6 +139,8 @@ const OrderItemViewScreen: React.FC<Props> = ({ navigation, route }) => {
 
         <OrderItemViewActionsSection
           loading={stateOrder.loading || stateOrderProducts.loading}
+          orderDetails={dataOrder}
+          products={dataOrderProducts}
           navigateTo={navigation.navigate}
         />
 

@@ -2,6 +2,7 @@ import createStore from "zustand"
 import Firebase from "firebase/app"
 import "firebase/firestore"
 import "firebase/functions"
+import "firebase/storage"
 
 // TODO: move credentials to env
 const FirebaseConfig = {

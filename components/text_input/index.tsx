@@ -20,6 +20,8 @@ interface Props {
   isRounded?: boolean
   keyboardType?: KeyboardTypeOptions
   autoCapitalize?: TextInputProps["autoCapitalize"]
+  numberOfLines?: number
+  multiline?: boolean
   prefix?: React.ReactNode
   suffix?: React.ReactNode
 }
@@ -32,6 +34,8 @@ const TextInput: React.FC<Props> = ({
   isRounded,
   keyboardType = "default",
   autoCapitalize = "sentences",
+  numberOfLines,
+  multiline,
   prefix,
   suffix,
 }) => {
@@ -52,8 +56,10 @@ const TextInput: React.FC<Props> = ({
         onChangeText={onChangeText}
         value={value}
         keyboardType={keyboardType}
+        multiline={multiline}
         placeholder={placeholder}
         autoCapitalize={autoCapitalize}
+        numberOfLines={numberOfLines}
       />
       {!!suffix && (
         <View style={[styles.iconContainer, styles.iconContainerSuffix]}>

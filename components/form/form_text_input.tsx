@@ -17,6 +17,8 @@ interface Props {
   control: Control
   keyboardType?: KeyboardTypeOptions
   autoCapitalize?: TextInputProps["autoCapitalize"]
+  numberOfLines?: number
+  multiline?: boolean
   placeholder?: string
   isRequired?: boolean
   suffix?: React.ReactNode
@@ -29,6 +31,8 @@ const FormTextInput: React.FC<Props> = ({
   name,
   keyboardType,
   autoCapitalize = "sentences",
+  numberOfLines,
+  multiline,
   placeholder,
   isRequired,
   suffix,
@@ -56,6 +60,8 @@ const FormTextInput: React.FC<Props> = ({
             suffix={suffix}
             keyboardType={keyboardType}
             autoCapitalize={autoCapitalize}
+            numberOfLines={numberOfLines}
+            multiline={multiline}
           />
           {!!error?.message && (
             <Label style={styles.errorLabel}>{error.message}</Label>
