@@ -2346,6 +2346,13 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
+"@react-native-community/datetimepicker@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-3.2.0.tgz#757ae731bab4442842a4a884941239efa75f371f"
+  integrity sha512-RX4/mi2beCiJXakJJr9bJrqNSfu7wc69Q0gPw21m/PdpYM14bJplVgjmL0hm3VSedj3Eg/dErWy5DdLM8upS/A==
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native-community/masked-view@0.1.10":
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
@@ -8206,6 +8213,13 @@ react-native-masked-text@^1.13.0:
   dependencies:
     date-and-time "0.9.0"
     tinymask "1.0.2"
+
+react-native-modal-datetime-picker@^9.2.1:
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-9.2.1.tgz#c299f3e263410a5d256143d1a3338168103eadf9"
+  integrity sha512-n50oMWu0/01V7Z/RDbb3xe81rduG9nC8NRrwflB1FfD2tPJZ9jYcpVQ1slFF+NIazl3AP3Rn4wzf0o6wH4pilQ==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-modal@^11.10.0:
   version "11.10.0"
