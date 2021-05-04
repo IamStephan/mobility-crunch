@@ -95,6 +95,7 @@ const InventoryItemUpsertFormSection: React.FC<Props> = ({
           control={control as any}
           name="productName"
           label="Name"
+          disabled={loading}
           isRequired
         />
         <Form.Input
@@ -102,6 +103,7 @@ const InventoryItemUpsertFormSection: React.FC<Props> = ({
           name="productPrice"
           label="Price"
           keyboardType="number-pad"
+          disabled={loading}
           isRequired
         />
 

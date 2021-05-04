@@ -133,6 +133,7 @@ const OrderItemUpsertFormSection: React.FC<Props> = ({
           control={control as any}
           name="clientName"
           label="Client name"
+          disabled={loading}
           isRequired
         />
         <Form.Input
@@ -141,17 +142,20 @@ const OrderItemUpsertFormSection: React.FC<Props> = ({
           label="Primary email"
           keyboardType="email-address"
           autoCapitalize="none"
+          disabled={loading}
           isRequired
         />
         <Form.Input
           control={control as any}
           name="phone"
           label="Phone number"
+          disabled={loading}
         />
         <Form.Input
           control={control as any}
           name="businessName"
           label="Business name"
+          disabled={loading}
         />
         <Form.Input
           control={control as any}
@@ -159,12 +163,14 @@ const OrderItemUpsertFormSection: React.FC<Props> = ({
           keyboardType="email-address"
           autoCapitalize="none"
           label="Secondary email"
+          disabled={loading}
         />
         <Form.Input
           control={control as any}
           name="vatNumber"
           label="Vat number"
           keyboardType="number-pad"
+          disabled={loading}
         />
       </Form.Section>
 
@@ -174,13 +180,24 @@ const OrderItemUpsertFormSection: React.FC<Props> = ({
         iconVariant="material"
         indentChildrenWithIcon={false}
       >
-        <Form.Input control={control as any} name="road" label="Road" />
+        <Form.Input
+          control={control as any}
+          name="road"
+          disabled={loading}
+          label="Road"
+        />
         <Form.Input
           control={control as any}
           name="city"
           label="City | Suburb"
+          disabled={loading}
         />
-        <Form.Input control={control as any} name="province" label="Province" />
+        <Form.Input
+          control={control as any}
+          name="province"
+          disabled={loading}
+          label="Province"
+        />
 
         <Form.Submit
           title={type === "insert" ? "Add Order" : "Save Order"}

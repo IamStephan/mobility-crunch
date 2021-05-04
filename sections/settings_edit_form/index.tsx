@@ -64,6 +64,7 @@ const SettingsEditSection: React.FC<Props> = ({ data, goBack }) => {
           name="vat"
           label="Vat percentage"
           isRequired
+          disabled={loading}
         />
 
         <Form.Submit

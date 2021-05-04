@@ -79,6 +79,7 @@ const OrderItemEditProductFormSection: React.FC<Props> = ({ data, goBack }) => {
           control={control as any}
           name="productName"
           label="Name"
+          disabled={loading}
           isRequired
         />
         <Form.Input
@@ -86,6 +87,7 @@ const OrderItemEditProductFormSection: React.FC<Props> = ({ data, goBack }) => {
           name="productPrice"
           label="Price"
           keyboardType="number-pad"
+          disabled={loading}
           isRequired
         />
         <Form.Input
@@ -93,6 +95,7 @@ const OrderItemEditProductFormSection: React.FC<Props> = ({ data, goBack }) => {
           name="productQuantity"
           label="Quantity"
           keyboardType="number-pad"
+          disabled={loading}
           isRequired
         />
 
