@@ -15,6 +15,7 @@ import { Border, Spacing, TypographyFamily, TypographySizes } from "../../theme"
 interface Props {
   value?: string
   placeholder?: string
+  disabled?: boolean
   onChangeText?: (text: string) => void
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void
   isRounded?: boolean
@@ -37,6 +38,7 @@ const TextInput: React.FC<Props> = ({
   numberOfLines,
   multiline,
   prefix,
+  disabled,
   suffix,
 }) => {
   const InputContainerComputedStyles: ViewStyle = {
@@ -53,7 +55,7 @@ const TextInput: React.FC<Props> = ({
       <TextInputRN
         style={styles.input}
         onBlur={onBlur}
-        onChangeText={onChangeText}
+        onChangeText={disabled ? undefined : onChangeText}
         value={value}
         keyboardType={keyboardType}
         multiline={multiline}
