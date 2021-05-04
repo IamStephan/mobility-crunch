@@ -48,8 +48,7 @@ const OrderItemViewAsModal = forwardRef(
     const { control, handleSubmit } = useForm<FormFields>({
       resolver: yupResolver(formSchema),
       defaultValues: {
-        message:
-          "Please see attached document.\nFriendly Mobility greetings.\n\nTEL: 022 772 1273 | 079 139 4950",
+        message: "Please see attached document.",
       },
     })
 
