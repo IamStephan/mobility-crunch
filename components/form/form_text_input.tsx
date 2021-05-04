@@ -15,6 +15,7 @@ interface Props {
   label: string
   name: string
   control: Control
+  disabled?: boolean
   keyboardType?: KeyboardTypeOptions
   autoCapitalize?: TextInputProps["autoCapitalize"]
   numberOfLines?: number
@@ -29,6 +30,7 @@ const FormTextInput: React.FC<Props> = ({
   label,
   control,
   name,
+  disabled,
   keyboardType,
   autoCapitalize = "sentences",
   numberOfLines,
@@ -62,6 +64,7 @@ const FormTextInput: React.FC<Props> = ({
             autoCapitalize={autoCapitalize}
             numberOfLines={numberOfLines}
             multiline={multiline}
+            disabled={disabled}
           />
           {!!error?.message && (
             <Label style={styles.errorLabel}>{error.message}</Label>
