@@ -63,8 +63,10 @@
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
     "react-native-webview": "^11.4.0",
+    "react-navigation-header-buttons": "^7.0.1",
     "react-use": "^17.2.4",
     "rn-pdf-reader-js": "^4.1.1",
+    "use-deep-compare": "^1.1.0",
     "validate-color": "^2.1.1",
     "yup": "^0.32.9",
     "zustand": "^3.4.1"
