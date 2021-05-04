@@ -20,6 +20,7 @@ import Animated, {
 } from "react-native-reanimated"
 
 import ModalConfirmation from "./modal_confirmation"
+
 import { PortalHosts } from "../../constants/portal_hosts"
 import { Spacing } from "../../theme"
 
