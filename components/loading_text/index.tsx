@@ -15,7 +15,7 @@ import Animated, {
   Easing,
 } from "react-native-reanimated"
 
-import Layout from "../../constants/layout"
+import { Spacing } from "../../theme"
 
 interface Props {
   alignText: TextStyle["alignSelf"]
@@ -67,11 +67,11 @@ const LoadingText: React.FC<Props> = ({
 const styles = StyleSheet.create({
   loader: {
     position: "absolute",
-    top: Layout.spacing / 2,
+    top: Spacing.xs,
     left: 0,
     right: 0,
     bottom: 0,
-    borderRadius: Layout.spacing / 2,
+    borderRadius: Spacing.xs,
   },
   textContainer: {
     opacity: 0,
