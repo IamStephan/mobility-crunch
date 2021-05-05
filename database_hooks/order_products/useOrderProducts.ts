@@ -25,7 +25,6 @@ export const useOrderProductsData = (
   const [productIDs, setProductIDs] = useState<Array<string>>([])
   const { firebase } = useFirebase(selector)
 
-  // Temp Limit
   const query = firebase
     .firestore()
     .collection("order-products")

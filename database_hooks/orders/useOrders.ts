@@ -13,7 +13,6 @@ export const useOrdersData = (
   const [data, setData] = useState<Array<OrdersData>>([])
   const { firebase } = useFirebase(selector)
 
-  // Temp Limit
   const query = firebase.firestore().collection("orders")
   const [items, loading, error] = useCollection<Omit<OrdersData, "id">>(query)
 
