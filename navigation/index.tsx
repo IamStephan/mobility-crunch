@@ -37,6 +37,7 @@ export default function Navigation({
             "Mobility Crunch will not work as intented when there is no internet connection.",
           icon: "auto",
           type: "danger",
+          duration: 2500,
           renderFlashMessageIcon: () => (
             <NotificationIcon name="signal-wifi-off" />
           ),
