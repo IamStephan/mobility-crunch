@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { ColorSchemeName } from "react-native"
 import { Provider } from "react-native-paper"
-import NetInfo from "@react-native-community/netinfo"
-import { showMessage } from "react-native-flash-message"
 
 import RootNavigator from "./root"
-import NotificationIcon from "../components/notification_icon"
 
 const MyTheme = {
   dark: false,
@@ -25,41 +22,6 @@ export default function Navigation({
 }: {
   colorScheme: ColorSchemeName
 }) {
-  // Optimistic
-  const [isOnline, setIsOnline] = useState(true)
-
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      if (!state.isConnected && isOnline) {
-        showMessage({
-          message: "Offline",
-          description:
-            "Mobility Crunch will not work as intented when there is no internet connection.",
-          icon: "auto",
-          type: "danger",
-          duration: 2500,
-          renderFlashMessageIcon: () => (
-            <NotificationIcon name="signal-wifi-off" />
-          ),
-        })
-        setIsOnline(false)
-      } else {
-        showMessage({
-          message: "Online",
-          description: "Your internet connection has been restored.",
-          icon: "auto",
-          type: "danger",
-          renderFlashMessageIcon: () => (
-            <NotificationIcon name="network-wifi" />
-          ),
-        })
-        setIsOnline(true)
-      }
-    })
-
-    return () => unsubscribe()
-  }, [setIsOnline])
-
   return (
     <Provider>
       <NavigationContainer theme={MyTheme}>
