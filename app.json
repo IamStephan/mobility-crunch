@@ -1,12 +1,15 @@
 {
   "expo": {
-    "name": "mobility-crunch-v2",
+    "name": "Mobility Crunch",
     "slug": "mobility-crunch-v2",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "privacy": "hidden",
+    "scheme": "mobilitycrunch",
     "userInterfaceStyle": "automatic",
+    "backgroundColor": "#ffffff",
+    "primaryColor": "#38a169",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -15,9 +18,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
