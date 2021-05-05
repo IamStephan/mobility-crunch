@@ -58,7 +58,7 @@ const SettingsTabOptions = TabOptions("Settings", "settings")
 const RootNavigator = () => {
   return (
     <RootTabNavigator.Navigator
-      initialRouteName={NavContainers.inventoryItemContainer}
+      initialRouteName={NavContainers.orderItemContainer}
       tabBarOptions={DefaultTabBarOptions}
     >
       <RootTabNavigator.Screen
