@@ -1,5 +1,5 @@
 import React from "react"
-import { ScrollView } from "react-native"
+import { KeyboardAvoidingView, ScrollView, Platform } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 
 import { ProductsData } from "../../database_hooks"
@@ -12,13 +12,17 @@ const InventoryItemUpsertScreen: React.FC<Props> = ({ navigation, route }) => {
   const params = route?.params as ProductsData
 
   return (
-    <ScrollView>
-      <InventoryItemUpsertFormSection
-        type={params?.id ? "edit" : "insert"}
-        data={params}
-        goBack={navigation.goBack}
-      />
-    </ScrollView>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "height" : undefined}
+    >
+      <ScrollView>
+        <InventoryItemUpsertFormSection
+          type={params?.id ? "edit" : "insert"}
+          data={params}
+          goBack={navigation.goBack}
+        />
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 
