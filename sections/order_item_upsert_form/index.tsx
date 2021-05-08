@@ -149,6 +149,7 @@ const OrderItemUpsertFormSection: React.FC<Props> = ({
           control={control as any}
           name="phone"
           label="Phone number"
+          keyboardType="phone-pad"
           disabled={loading}
         />
         <Form.Input
@@ -159,7 +160,7 @@ const OrderItemUpsertFormSection: React.FC<Props> = ({
         />
         <Form.Input
           control={control as any}
-          name="secondaryEmaill"
+          name="secondaryEmail"
           keyboardType="email-address"
           autoCapitalize="none"
           label="Secondary email"
