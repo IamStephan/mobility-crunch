@@ -8,7 +8,7 @@ export interface DataPayload {
   copyTaxNum?: string | undefined
   client: {
     email: string
-    client_name: String
+    name: String
 
     business_name?: string
     city?: string
