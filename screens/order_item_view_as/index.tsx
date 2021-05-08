@@ -4,7 +4,6 @@ import PFDReader from "rn-pdf-reader-js"
 import { StackScreenProps } from "@react-navigation/stack"
 import { ActivityIndicator } from "react-native-paper"
 
-import { useSendEmail, EmailDataPayload } from "../../functions_hooks"
 import { Gray, Green, Spacing, TypographySizes } from "../../theme"
 import Icon from "../../components/icon"
 
