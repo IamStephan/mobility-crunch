@@ -59,13 +59,18 @@ const Modal: React.FC<Props> & ModalComponents = ({
   const [isLocalOpen, setIsLocalOpen] = useState(false)
   const [isLayoutReady, setIsLayoutReady] = useState(false)
 
-  const { bottom: BottomPadding } = useSafeAreaInsets()
+  const { bottom: BottomPadding, top: TopPadding } = useSafeAreaInsets()
 
   const opacityV = useSharedValue(0)
 
   const bottomContainerSafePadding: ViewStyle = {
     paddingBottom: BottomPadding,
   }
+
+  const topContainerSafePadding: ViewStyle = {
+    paddingTop: TopPadding,
+  }
+
   /**
    * Animation styles
    */
@@ -240,7 +245,11 @@ const Modal: React.FC<Props> & ModalComponents = ({
         </Animated.View>
 
         <Animated.View
-          style={[styles.menuTopContainer, topContainerAnimStyles]}
+          style={[
+            styles.menuTopContainer,
+            topContainerAnimStyles,
+            topContainerSafePadding,
+          ]}
           onLayout={_handleTopLayout}
         >
           {/**
