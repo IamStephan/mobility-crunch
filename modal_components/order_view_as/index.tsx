@@ -144,14 +144,15 @@ const OrderItemViewAsModal = forwardRef(
           }
         }
 
-        let orderClient!: DataPayload["client"] & { dateToUse?: CopyTaxDate }
-
-        if (order) {
-          orderClient = {
-            client_name: order.client_name,
-            email: order.email,
-          }
+        let orderClient: DataPayload["client"] & {
+          dateToUse?: CopyTaxDate
+        } = {} as DataPayload["client"] & {
+          dateToUse?: CopyTaxDate
         }
+
+        // Order Builder
+        if (order?.client_name) orderClient.name = order.client_name
+        if (order?.email) orderClient.email = order.email
 
         if (order?.phone) orderClient.phone = order.phone
         if (order?.vat_number) orderClient.vat_number = order.vat_number
