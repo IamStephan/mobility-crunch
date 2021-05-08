@@ -10,6 +10,8 @@ interface Props {
   loading?: boolean
 }
 
+const AppVersion = "v2.0.1a"
+
 const SettingsViewGeneralSection: React.FC<Props> = ({
   loading,
   vat,
@@ -39,9 +41,9 @@ const SettingsViewGeneralSection: React.FC<Props> = ({
 
       <LoadingSwitch
         loading={loading}
-        loadedComponent={<ListField label="App version" value={"v2.0.0"} />}
+        loadedComponent={<ListField label="App version" value={AppVersion} />}
         loadingComponent={
-          <ListFieldLoader label="App version" placeholderValue="v2.0.0" />
+          <ListFieldLoader label="App version" placeholderValue={AppVersion} />
         }
       />
     </Section>
