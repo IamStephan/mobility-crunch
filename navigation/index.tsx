@@ -1,30 +1,26 @@
 import React from "react"
 import { NavigationContainer } from "@react-navigation/native"
-import { ColorSchemeName } from "react-native"
 import { Provider } from "react-native-paper"
 
 import RootNavigator from "./root"
+import { Gray, Green } from "../theme"
 
-const MyTheme = {
+const NavTheme = {
   dark: false,
   colors: {
-    primary: "rgb(255, 45, 85)",
-    background: "#ffffff",
-    card: "rgb(255, 255, 255)",
-    text: "rgb(28, 28, 30)",
-    border: "rgb(199, 199, 204)",
-    notification: "rgb(255, 69, 58)",
+    primary: Green.green600,
+    background: "white",
+    card: "white",
+    text: Gray.gray900,
+    border: Gray.gray200,
+    notification: Green.green600,
   },
 }
 
-export default function Navigation({
-  colorScheme,
-}: {
-  colorScheme: ColorSchemeName
-}) {
+export default function Navigation() {
   return (
     <Provider>
-      <NavigationContainer theme={MyTheme}>
+      <NavigationContainer theme={NavTheme}>
         <RootNavigator />
       </NavigationContainer>
     </Provider>
