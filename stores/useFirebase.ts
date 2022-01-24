@@ -6,14 +6,14 @@ import "firebase/storage"
 
 // TODO: move credentials to env
 const FirebaseConfig = {
-  apiKey: "AIzaSyB-sCMnoPhgeU7Odwa9Xy7_cuP7ktO-EOg",
-  authDomain: "gerimed-mobility.firebaseapp.com",
-  databaseURL: "https://gerimed-mobility.firebaseio.com",
-  projectId: "gerimed-mobility",
-  storageBucket: "gerimed-mobility.appspot.com",
-  messagingSenderId: "2168722012",
-  appId: "1:2168722012:web:aa65b856154b459fdb4c99",
-  measurementId: "G-TYBFZSBVB4",
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 }
 
 const FirebaseInstance = Firebase.initializeApp(FirebaseConfig)
